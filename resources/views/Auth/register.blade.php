@@ -5,7 +5,7 @@
 @section('content')
 <div class="bg-white p-8 rounded-2xl border border-gray-200 shadow-sm">
     <div class="text-center mb-8">
-        <h1 class="text-2xl font-bold text-gray-900">Buat Akun Baru</h1>
+        <img src="{{ asset('images/logonama.png') }}" alt="Logo Jualin PCR" class="w-48 h-auto object-contain mx-auto">
         <p class="text-sm text-gray-500 mt-1">Gunakan email resmi kampus (<span class="font-medium text-gray-700">pcr.ac.id</span>)</p>
     </div>
 

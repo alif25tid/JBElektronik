@@ -5,8 +5,7 @@
 @section('content')
 <div class="bg-white p-8 rounded-2xl border border-gray-200 shadow-sm">
     <div class="text-center mb-8">
-        <h1 class="text-2xl font-bold text-gray-900">Selamat Datang Kembali</h1>
-        <p class="text-sm text-gray-500 mt-1">Masuk ke akun Jualin-PCR Anda</p>
+        <img src="{{ asset('images/logonama.png') }}" alt="Logo Jualin PCR" class="w-48 h-auto object-contain mx-auto">
     </div>
 
     <!-- Notifikasi Sukses Registrasi -->
