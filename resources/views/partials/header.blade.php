@@ -11,7 +11,7 @@
                 <nav class="hidden md:flex items-center space-x-1" role="navigation">
                     @auth
                         <a href="{{ route('mahasiswa.dashboard') }}" class="py-2 px-4 rounded-lg text-sm font-medium text-gray-700 hover:bg-gray-100 transition-all">Katalog Produk</a>
-                        <a href="{{ route('mahasiswa.toko') }}" class="py-2 px-4 rounded-lg text-sm font-medium text-gray-700 hover:bg-gray-100 transition-all">Toko Saya</a>
+                        <a href="{{ route('mahasiswa.toko.index') }}" class="py-2 px-4 rounded-lg text-sm font-medium text-gray-700 hover:bg-gray-100 transition-all">Toko Saya</a>
                     @endauth
                 </nav>
             </div>

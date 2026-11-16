@@ -27,7 +27,7 @@
                 <p class="text-orange-600 font-bold mt-1">Rp {{ number_format($product->harga, 0, ',', '.') }}</p>
                 <p class="text-xs text-gray-500 mt-2">Penjual: {{ $product->user->name ?? 'Mahasiswa' }}</p>
 
-                <a href="#" class="mt-4 block w-full text-center py-2 px-4 bg-gray-900 hover:bg-orange-600 text-white text-sm font-medium rounded-lg transition-colors">
+                <a href="{{ route('mahasiswa.toko.show', $product->id) }}" class="mt-4 block w-full text-center py-2 px-4 bg-gray-900 hover:bg-orange-600 text-white text-sm font-medium rounded-lg transition-colors">
                     Lihat Detail
                 </a>
             </div>

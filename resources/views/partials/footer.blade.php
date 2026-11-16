@@ -17,7 +17,7 @@
                 <h4 class="text-sm font-semibold text-gray-900 mb-4 uppercase tracking-wider">Navigasi Cepat</h4>
                 <ul class="space-y-2 text-sm text-gray-600">
                     <li><a href="{{ route('mahasiswa.dashboard') }}" class="hover:text-orange-600 transition-colors">Katalog Beranda</a></li>
-                    <li><a href="{{ route('mahasiswa.toko') }}" class="hover:text-orange-600 transition-colors">Kelola Toko Saya</a></li>
+                    <li><a href="{{ route('mahasiswa.toko.index') }}" class="hover:text-orange-600 transition-colors">Kelola Toko Saya</a></li>
                 </ul>
             </div>
             <div>
