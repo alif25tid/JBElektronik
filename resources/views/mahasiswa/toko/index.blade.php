@@ -29,7 +29,7 @@
                         <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Kategori</th>
                         <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Harga</th>
                         <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
-                        <th class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">Aksi</th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Aksi</th>
                     </tr>
                 </thead>
                 <tbody class="bg-white divide-y divide-gray-200">
@@ -59,12 +59,17 @@
                                     {{ ucfirst($product->status) }}
                                 </span>
                             </td>
-                            <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                                <form action="{{ route('mahasiswa.toko.destroy', $product->id) }}" method="POST" onsubmit="return confirm('Yakin ingin menghapus barang ini?')">
-                                    @csrf
-                                    @method('DELETE')
-                                    <button type="submit" class="text-red-600 hover:text-red-900">Hapus</button>
-                                </form>
+                            <td class="px-6 py-4 whitespace-nowrap">
+                                <div class="flex items-center space-x-4">
+                                    <!-- Tombol Edit -->
+                                    <a href="{{ route('mahasiswa.toko.edit', $product->id) }}" class="text-amber-600 hover:text-amber-900 font-semibold">Edit</a>
+                                    <!-- Tombol Hapus -->
+                                    <form action="{{ route('mahasiswa.toko.destroy', $product->id) }}" method="POST" class="inline-block m-0" onsubmit="return confirm('Yakin ingin menghapus barang ini?')">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button type="submit" class="text-red-600 hover:text-red-900 font-semibold bg-transparent border-0 p-0 cursor-pointer">Hapus</button>
+                                    </form>
+                                </div>
                             </td>
                         </tr>
                     @empty

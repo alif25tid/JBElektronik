@@ -5,6 +5,7 @@ use App\Http\Controllers\MahasiswaController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\Mahasiswa\TokoController;
+use App\Http\Controllers\CartController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -22,6 +23,8 @@ Route::middleware(['auth'])->prefix('mahasiswa')->name('mahasiswa.')->group(func
     Route::post('/toko-saya', [TokoController::class, 'store'])->name('toko.store');
     Route::delete('/toko-saya/{id}', [TokoController::class, 'destroy'])->name('toko.destroy');
     Route::get('/toko-saya/{id}', [TokoController::class, 'show'])->name('toko.show');
+    Route::get('/toko-saya/{id}/edit', [TokoController::class, 'edit'])->name('toko.edit');
+    Route::put('/toko-saya/{id}', [TokoController::class, 'update'])->name('toko.update');
 });
 
 // Route Guest (Login & Register)
@@ -31,6 +34,13 @@ Route::middleware('guest')->group(function () {
     
     Route::get('/register', [AuthController::class, 'showRegister'])->name('register');
     Route::post('/register', [AuthController::class, 'register'])->name('register.post');
+});
+
+Route::middleware(['auth'])->prefix('mahasiswa')->name('mahasiswa.')->group(function () {
+    // Rute keranjang
+    Route::get('/keranjang', [CartController::class, 'index'])->name('cart.index');
+    Route::post('/keranjang/tambah/{id}', [CartController::class, 'store'])->name('cart.store');
+    Route::delete('/keranjang/{id}', [CartController::class, 'destroy'])->name('cart.destroy');
 });
 
 // Logout

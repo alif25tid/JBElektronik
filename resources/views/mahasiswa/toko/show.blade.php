@@ -71,8 +71,20 @@
             </div>
 
             <!-- Tombol Aksi Bawah -->
-            <div class="flex space-x-4 pt-6 border-t border-gray-200">
-                <a href="{{ route('mahasiswa.dashboard') }}" class="w-full text-center px-4 py-2.5 border border-gray-300 text-gray-700 text-sm font-medium rounded-xl hover:bg-gray-50 transition-colors">
+            <div class="space-y-3 pt-6 border-t border-gray-200">
+                <!-- Tombol Masukkan ke Keranjang -->
+                <form action="{{ route('mahasiswa.cart.store', $product->id) }}" method="POST">
+                    @csrf
+                    <button type="submit" class="w-full text-center px-4 py-3 bg-orange-600 hover:bg-orange-700 text-white text-sm font-semibold rounded-xl shadow-sm transition-colors flex items-center justify-center space-x-2">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"></path>
+                        </svg>
+                        <span>+ Masukkan ke Keranjang</span>
+                    </button>
+                </form>
+
+                <!-- Tombol Kembali -->
+                <a href="{{ route('mahasiswa.dashboard') }}" class="w-full block text-center px-4 py-2.5 border border-gray-300 text-gray-700 text-sm font-medium rounded-xl hover:bg-gray-50 transition-colors">
                     Kembali
                 </a>
             </div>

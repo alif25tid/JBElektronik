@@ -89,4 +89,62 @@ class TokoController extends Controller
         
         return view('mahasiswa.toko.show', compact('product'));
     }
+
+    // Menampilkan form edit produk
+    public function edit($id)
+    {
+        $product = Product::where('user_id', Auth::id())->findOrFail($id);
+        $categories = Category::all();
+        
+        return view('mahasiswa.toko.edit', compact('product', 'categories'));
+    }
+
+    // Memperbarui data produk di database
+    public function update(Request $request, $id)
+    {
+        $product = Product::where('user_id', Auth::id())->findOrFail($id);
+
+        $request->validate([
+            'category_id' => 'required',
+            'nama_barang' => 'required|string|max:255',
+            'harga' => 'required|numeric',
+            'deskripsi' => 'required',
+            'foto' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
+            'video_review' => 'nullable|mimes:mp4,mov,avi,mkv|max:10240',
+            'metode_serah_terima' => 'required',
+            'titik_lokasi' => 'required',
+            'status' => 'required|in:tersedia,terjual',
+        ]);
+
+        // Jika ada foto baru yang diunggah
+        if ($request->hasFile('foto')) {
+            // Hapus foto lama jika ada
+            if ($product->foto && Storage::disk('public')->exists($product->foto)) {
+                Storage::disk('public')->delete($product->foto);
+            }
+            $product->foto = $request->file('foto')->store('product-photos', 'public');
+        }
+
+        // Jika ada video review baru yang diunggah
+        if ($request->hasFile('video_review')) {
+            if ($product->video_review && $product->video_review != '-' && Storage::disk('public')->exists($product->video_review)) {
+                Storage::disk('public')->delete($product->video_review);
+            }
+            $product->video_review = $request->file('video_review')->store('product-videos', 'public');
+        }
+
+        $product->update([
+            'category_id' => $request->category_id,
+            'nama_barang' => $request->nama_barang,
+            'harga' => $request->harga,
+            'deskripsi' => $request->deskripsi,
+            'foto' => $product->foto,
+            'video_review' => $product->video_review,
+            'metode_serah_terima' => $request->metode_serah_terima,
+            'titik_lokasi' => $request->titik_lokasi,
+            'status' => $request->status,
+        ]);
+
+        return redirect()->route('mahasiswa.toko.index')->with('success', 'Barang dagangan berhasil diperbarui!');
+    }
 }

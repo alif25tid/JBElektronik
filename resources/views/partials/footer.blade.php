@@ -10,7 +10,7 @@
 
         <div class="py-12 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
             <div>
-                <span class="text-xl font-bold tracking-tight text-gray-900">JUALIN-<span class="text-orange-600">PCR</span></span>
+                <img src="{{ asset('images/logonama.png') }}" alt="Logo Jualin" width="70" height="30">
                 <p class="text-sm text-gray-500 mt-3">Solusi praktis sirkulasi barang elektronik preloved di lingkungan kampus.</p>
             </div>
             <div>
