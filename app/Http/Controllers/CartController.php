@@ -28,12 +28,16 @@ class CartController extends Controller
         // Cek apakah barang sudah ada di keranjang user
         $exists = Cart::where('user_id', Auth::id())->where('product_id', $productId)->exists();
 
-        if (!$exists) {
-            Cart::create([
-                'user_id' => Auth::id(),
-                'product_id' => $productId
-            ]);
+        if ($exists) {
+            // Jika sudah ada, kembalikan dengan pesan peringatan/notif
+            return back()->with('warning', 'Barang tersebut sudah ada di dalam keranjang Anda!');
         }
+
+        // Jika belum ada, simpan ke keranjang
+        Cart::create([
+            'user_id' => Auth::id(),
+            'product_id' => $productId
+        ]);
 
         return back()->with('success', 'Barang berhasil ditambahkan ke keranjang!');
     }

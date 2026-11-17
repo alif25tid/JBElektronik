@@ -8,7 +8,7 @@
 
 <div class="grid grid-cols-1 md:grid-cols-4 gap-6">
     @forelse($products as $product)
-        <div class="bg-white border border-gray-200 rounded-xl overflow-hidden shadow-sm hover:shadow-md transition-shadow">
+        <div class="bg-white border border-orange-500 rounded-xl overflow-hidden shadow-sm hover:shadow-md transition-shadow">
             <!-- Foto Produk -->
             <div class="h-48 bg-gray-100 flex items-center justify-center overflow-hidden">
                 @if($product->foto)
@@ -27,7 +27,7 @@
                 <p class="text-orange-600 font-bold mt-1">Rp {{ number_format($product->harga, 0, ',', '.') }}</p>
                 <p class="text-xs text-gray-500 mt-2">Penjual: {{ $product->user->name ?? 'Mahasiswa' }}</p>
 
-                <a href="{{ route('mahasiswa.toko.show', $product->id) }}" class="mt-4 block w-full text-center py-2 px-4 bg-gray-900 hover:bg-orange-600 text-white text-sm font-medium rounded-lg transition-colors">
+                <a href="{{ route('mahasiswa.toko.show', $product->id) }}" class="mt-4 block w-full text-center py-2 px-4 bg-orange-500 hover:bg-orange-600 text-white text-sm font-medium rounded-lg transition-colors">
                     Lihat Detail
                 </a>
             </div>

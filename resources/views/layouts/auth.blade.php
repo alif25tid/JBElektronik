@@ -9,8 +9,8 @@
 </head>
 <body class="bg-gray-50 text-gray-900 min-h-screen flex items-center justify-center antialiased">
 
-    <!-- Konten Utama (Form Login/Register) -->
-    <main class="w-full max-w-md px-4 py-8">
+    <!-- UBAH DISINI: Ganti max-w-md menjadi max-w-5xl dan tambahkan flex justify-center -->
+    <main class="w-full max-w-5xl px-4 py-8 flex justify-center">
         @yield('content')
     </main>
 

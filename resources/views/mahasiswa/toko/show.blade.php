@@ -3,6 +3,18 @@
 @section('title', 'Detail Barang - Jualin PCR')
 
 @section('content')
+@if(session('success'))
+    <div class="mb-4 p-4 bg-green-100 border border-green-400 text-green-700 rounded-xl text-sm font-medium">
+        {{ session('success') }}
+    </div>
+@endif
+
+<!-- Notifikasi Peringatan (Barang sudah ada di keranjang) -->
+@if(session('warning'))
+    <div class="mb-4 p-4 bg-amber-100 border border-amber-400 text-amber-800 rounded-xl text-sm font-medium">
+        {{ session('warning') }}
+    </div>
+@endif
 <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
 
     <div class="bg-white border border-gray-200 rounded-2xl shadow-sm overflow-hidden grid grid-cols-1 md:grid-cols-2 gap-8 p-6 sm:p-8">
