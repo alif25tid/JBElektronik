@@ -26,7 +26,7 @@
                             type="search"
                             id="header-search-input"
                             name="search"
-                            placeholder="Cari nama barang atau kategori..."
+                            placeholder="Cari barang, kategori, atau nama mahasiswa..."
                             value="{{ request('search') }}"
                             class="w-full pl-10 pr-4 py-2 text-sm border border-gray-300 rounded-full focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent transition-all"
                         />
@@ -112,6 +112,29 @@
                     @if(isset($cartCount) && $cartCount > 0)
                         <span class="absolute top-0 right-0 bg-red-500 text-white text-[10px] font-bold px-1.5 py-0.5 rounded-full shadow-sm">
                             {{ $cartCount }}
+                        </span>
+                    @endif
+                </a>
+
+                
+                @php
+                    $unreadMessagesCount = \App\Models\Message::where('receiver_id', auth()->id())
+                        ->whereNull('read_at')
+                        ->count();
+                @endphp
+
+                <a href="{{ route('mahasiswa.chat.index') }}"
+                class="relative text-gray-700 hover:text-orange-600 p-2 transition-colors"
+                title="Pesan">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M8 10h.01M12 10h.01M16 10h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z">
+                        </path>
+                    </svg>
+
+                    @if(isset($unreadMessagesCount) && $unreadMessagesCount > 0)
+                        <span class="absolute top-0 right-0 bg-red-500 text-white text-[10px] font-bold px-1.5 py-0.5 rounded-full">
+                            {{ $unreadMessagesCount > 99 ? '99+' : $unreadMessagesCount }}
                         </span>
                     @endif
                 </a>

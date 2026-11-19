@@ -95,6 +95,14 @@
                     </button>
                 </form>
 
+                <!-- Tombol Chat -->
+                @if(auth()->id() != $product->user_id)
+                    <a href="{{ route('mahasiswa.chat.show', ['user' => $product->user_id, 'product_id' => $product->id]) }}"
+                        class="block w-full text-center py-2.5 px-4 border border-orange-600 text-orange-600 hover:bg-orange-50 font-medium text-sm rounded-xl transition-colors">
+                        Chat Penjual
+                    </a>
+                @endif
+
                 <!-- Tombol Kembali -->
                 <a href="{{ route('mahasiswa.dashboard') }}" class="w-full block text-center px-4 py-2.5 border border-gray-300 text-gray-700 text-sm font-medium rounded-xl hover:bg-gray-50 transition-colors">
                     Kembali

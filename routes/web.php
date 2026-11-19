@@ -6,6 +6,7 @@ use App\Http\Controllers\ProductController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\Mahasiswa\TokoController;
 use App\Http\Controllers\CartController;
+use App\Http\Controllers\ChatController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -41,6 +42,12 @@ Route::middleware(['auth'])->prefix('mahasiswa')->name('mahasiswa.')->group(func
     Route::get('/keranjang', [CartController::class, 'index'])->name('cart.index');
     Route::post('/keranjang/tambah/{id}', [CartController::class, 'store'])->name('cart.store');
     Route::delete('/keranjang/{id}', [CartController::class, 'destroy'])->name('cart.destroy');
+});
+
+Route::middleware('auth')->group(function () {
+    Route::get('/chat', [ChatController::class, 'index'])->name('mahasiswa.chat.index');
+    Route::get('/chat/{user}', [ChatController::class, 'show'])->name('mahasiswa.chat.show');
+    Route::post('/chat/{user}', [ChatController::class, 'store'])->name('mahasiswa.chat.store');
 });
 
 // Logout

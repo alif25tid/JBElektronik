@@ -15,7 +15,7 @@ class MahasiswaController extends Controller
         $categoryId = $request->get('category');
         $search = $request->get('search');
 
-        // Ambil produk yang tersedia dengan filter pencarian / kategori
+        // Ambil produk yang tersedia dengan filter pencarian / kategori / penjual
         $products = Product::with(['category', 'user'])
             ->where('status', 'tersedia')
             ->when($categoryId, function ($query, $categoryId) {
@@ -26,6 +26,9 @@ class MahasiswaController extends Controller
                     $q->where('nama_barang', 'like', "%{$search}%")
                     ->orWhereHas('category', function ($catQuery) use ($search) {
                         $catQuery->where('nama_kategori', 'like', "%{$search}%");
+                    })
+                    ->orWhereHas('user', function ($userQuery) use ($search) {
+                        $userQuery->where('name', 'like', "%{$search}%");
                     });
                 });
             })
