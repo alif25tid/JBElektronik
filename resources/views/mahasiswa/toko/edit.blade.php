@@ -61,8 +61,8 @@
                 <label class="block text-sm font-medium text-gray-700 mb-1">Metode Serah Terima</label>
                 <select name="metode_serah_terima" required class="w-full rounded-lg border-gray-300 border px-3 py-2 text-sm focus:ring-orange-500 focus:border-orange-500">
                     <option value="COD di Kampus" {{ $product->metode_serah_terima == 'COD di Kampus' ? 'selected' : '' }}>COD di Kampus</option>
-                    <option value="Ambil di Kos / Sekitar Kampus" {{ $product->metode_serah_terima == 'Ambil di Kos / Sekitar Kampus' ? 'selected' : '' }}>Ambil di Kos / Sekitar Kampus</option>
-                    <option value="Kantin PCR" {{ $product->metode_serah_terima == 'Kantin PCR' ? 'selected' : '' }}>Kantin PCR</option>
+                    <option value="Antar ke Kost" {{ $product->metode_serah_terima == 'Antar ke Kost' ? 'selected' : '' }}>Antar ke Kost</option>
+                    <option value="Jemput di Kost" {{ $product->metode_serah_terima == 'Jemput di Kost' ? 'selected' : '' }}>Jemput di Kost</option>
                 </select>
             </div>
 

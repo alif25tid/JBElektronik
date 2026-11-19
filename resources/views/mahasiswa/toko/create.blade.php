@@ -56,8 +56,8 @@
                     <select name="metode_serah_terima" required class="w-full rounded-lg border-gray-300 border px-3 py-2 text-sm focus:ring-orange-500 focus:border-orange-500">
                         <option value="">Pilih Metode Serah Terima</option>
                         <option value="COD di Kampus">Atur Lokasi</option>
-                        <option value="Ambil di Kos / Sekitar Kampus">Antar ke Kost</option>
-                        <option value="Kantin PCR">Jemput di Kost</option>
+                        <option value="Antar ke Kost">Antar ke Kost</option>
+                        <option value="Jemput di Kost">Jemput di Kost</option>
                     </select>
                 </div>
 

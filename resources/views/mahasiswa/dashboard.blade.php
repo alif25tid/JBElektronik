@@ -34,7 +34,17 @@
         </div>
     @empty
         <div class="col-span-full text-center py-12 bg-white rounded-xl border border-gray-200">
-            <p class="text-gray-500 text-sm">Belum ada barang elektronik yang dijual saat ini.</p>
+            @if(request('search') || request('category'))
+                <p class="text-gray-700 text-sm font-medium">
+                    Barang tidak ditemukan untuk pencarian "{{ request('search') }}".
+                </p>
+                <p class="text-gray-400 text-xs mt-1">
+                    Coba kata kunci lain atau 
+                    <a href="{{ route('mahasiswa.dashboard') }}" class="text-orange-600 hover:underline font-medium">tampilkan semua barang</a>.
+                </p>
+            @else
+                <p class="text-gray-500 text-sm">Belum ada barang elektronik yang dijual saat ini.</p>
+            @endif
         </div>
     @endforelse
 </div>

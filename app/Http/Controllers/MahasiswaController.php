@@ -22,7 +22,12 @@ class MahasiswaController extends Controller
                 return $query->where('category_id', $categoryId);
             })
             ->when($search, function ($query, $search) {
-                return $query->where('nama_barang', 'like', "%{$search}%");
+                return $query->where(function ($q) use ($search) {
+                    $q->where('nama_barang', 'like', "%{$search}%")
+                    ->orWhereHas('category', function ($catQuery) use ($search) {
+                        $catQuery->where('nama_kategori', 'like', "%{$search}%");
+                    });
+                });
             })
             ->latest()
             ->get();
