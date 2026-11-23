@@ -35,16 +35,29 @@
                 <tbody class="bg-white divide-y divide-gray-200">
                     @forelse($products as $product)
                         <tr>
-                            <td class="px-6 py-4 whitespace-nowrap">
-                                <div class="flex items-center">
+                            <td class="px-6 py-4">
+                                <div class="flex items-start">
                                     <div class="h-10 w-10 flex-shrink-0 bg-gray-100 rounded-lg overflow-hidden">
                                         @if($product->foto)
-                                            <img src="{{ asset('storage/' . $product->foto) }}" alt="{{ $product->nama_barang }}" class="w-12 h-12 object-cover rounded-lg">
+                                            <img src="{{ asset('storage/' . $product->foto) }}" alt="{{ $product->nama_barang }}" class="w-10 h-10 object-cover rounded-lg">
                                         @endif
                                     </div>
                                     <div class="ml-4">
                                         <div class="text-sm font-medium text-gray-900">{{ $product->nama_barang }}</div>
                                         <div class="text-xs text-gray-500">{{ $product->titik_lokasi }}</div>
+
+                                        @if($product->status === 'pending')
+                                            <div class="mt-2 p-2.5 rounded-lg bg-amber-50 border border-amber-200 text-xs text-amber-800 max-w-xs">
+                                                Menunggu konfirmasi Super Admin. Barang belum tampil di katalog.
+                                            </div>
+                                        @elseif($product->status === 'rejected')
+                                            <div class="mt-2 p-2.5 rounded-lg bg-red-50 border border-red-200 text-xs text-red-800 max-w-xs space-y-1">
+                                                <p class="font-bold">Peringatan: Barang ini ditolak oleh Super Admin dan tidak tampil di katalog.</p>
+                                                @if($product->rejection_reason)
+                                                    <p>Alasan: {{ $product->rejection_reason }}</p>
+                                                @endif
+                                            </div>
+                                        @endif
                                     </div>
                                 </div>
                             </td>
@@ -55,9 +68,23 @@
                                 Rp {{ number_format($product->harga, 0, ',', '.') }}
                             </td>
                             <td class="px-6 py-4 whitespace-nowrap">
-                                <span class="px-2.5 py-1 text-xs font-semibold rounded-full {{ $product->status == 'tersedia' ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800' }}">
-                                    {{ ucfirst($product->status) }}
-                                </span>
+                                @if(in_array($product->status, ['approved', 'tersedia']))
+                                    <span class="px-2.5 py-1 text-xs font-semibold rounded-full bg-green-100 text-green-800">
+                                        Disetujui
+                                    </span>
+                                @elseif($product->status === 'pending')
+                                    <span class="px-2.5 py-1 text-xs font-semibold rounded-full bg-amber-100 text-amber-800">
+                                        Menunggu Konfirmasi
+                                    </span>
+                                @elseif($product->status === 'rejected')
+                                    <span class="px-2.5 py-1 text-xs font-semibold rounded-full bg-red-100 text-red-800">
+                                        Ditolak
+                                    </span>
+                                @else
+                                    <span class="px-2.5 py-1 text-xs font-semibold rounded-full bg-gray-100 text-gray-800">
+                                        {{ ucfirst($product->status) }}
+                                    </span>
+                                @endif
                             </td>
                             <td class="px-6 py-4 whitespace-nowrap">
                                 <div class="flex items-center space-x-4">

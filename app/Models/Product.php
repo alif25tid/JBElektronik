@@ -20,6 +20,12 @@ class Product extends Model
         'metode_serah_terima',
         'titik_lokasi',
         'status',
+        'rejection_reason',
+        'moderated_at',
+    ];
+
+    protected $casts = [
+        'moderated_at' => 'datetime',
     ];
 
     // Tambahkan relasi ke User (Mahasiswa yang menjual)
@@ -32,5 +38,11 @@ class Product extends Model
     public function category()
     {
         return $this->belongsTo(Category::class);
+    }
+
+    // Scope untuk katalog mahasiswa (hanya barang yang sudah dikonfirmasi/approved)
+    public function scopeApproved($query)
+    {
+        return $query->where('status', 'approved');
     }
 }

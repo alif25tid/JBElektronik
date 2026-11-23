@@ -7,6 +7,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\Mahasiswa\TokoController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\ChatController;
+use App\Http\Controllers\Admin\SuperAdminController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -49,6 +50,15 @@ Route::middleware('auth')->group(function () {
     Route::get('/chat/{user}', [ChatController::class, 'show'])->name('mahasiswa.chat.show');
     Route::post('/chat/{user}', [ChatController::class, 'store'])->name('mahasiswa.chat.store');
 });
+
+Route::middleware(['auth', 'admin'])
+    ->prefix('admin')
+    ->name('admin.')
+    ->group(function () {
+        Route::get('/dashboard', [SuperAdminController::class, 'index'])->name('dashboard');
+        Route::match(['post', 'patch'], '/products/{product}/approve', [SuperAdminController::class, 'approve'])->name('products.approve');
+        Route::match(['post', 'patch'], '/products/{product}/reject', [SuperAdminController::class, 'reject'])->name('products.reject');
+    });
 
 // Logout
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout')->middleware('auth');

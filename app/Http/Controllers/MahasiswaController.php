@@ -21,20 +21,20 @@ class MahasiswaController extends Controller
             ->when($categoryId, function ($query, $categoryId) {
                 return $query->where('category_id', $categoryId);
             })
-            ->when($search, function ($query, $search) {
+           ->when($search, function ($query, $search) {
                 return $query->where(function ($q) use ($search) {
                     $q->where('nama_barang', 'like', "%{$search}%")
-                    ->orWhereHas('category', function ($catQuery) use ($search) {
-                        $catQuery->where('nama_kategori', 'like', "%{$search}%");
-                    })
-                    ->orWhereHas('user', function ($userQuery) use ($search) {
-                        $userQuery->where('name', 'like', "%{$search}%");
-                    });
+                        ->orWhereHas('category', function ($catQuery) use ($search) {
+                            $catQuery->where('nama_kategori', 'like', "%{$search}%");
+                        })
+                        ->orWhereHas('user', function ($userQuery) use ($search) {
+                            $userQuery->where('name', 'like', "%{$search}%");
+                        });
                 });
             })
-            ->latest()
+            ->inRandomOrder()
             ->get();
-
+            
         $categories = Category::all();
 
         return view('mahasiswa.dashboard', compact('products', 'categories'));

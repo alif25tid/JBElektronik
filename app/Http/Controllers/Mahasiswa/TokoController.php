@@ -59,13 +59,13 @@ class TokoController extends Controller
                 'harga' => $request->harga,
                 'deskripsi' => $request->deskripsi,
                 'foto' => $fotoPath,
-                'video_review' => $videoPath, // Menyimpan path file video atau '-' jika kosong
+                'video_review' => $videoPath,
                 'metode_serah_terima' => $request->metode_serah_terima,
                 'titik_lokasi' => $request->titik_lokasi,
-                'status' => 'tersedia',
+                'status' => 'pending',
             ]);
 
-            return redirect()->route('mahasiswa.toko.index')->with('success', 'Barang dagangan beserta videonya berhasil ditambahkan!');
+            return redirect()->route('mahasiswa.toko.index')->with('success', 'Barang dagangan berhasil diunggah dan sedang menunggu konfirmasi Super Admin!');
         }
 
     // Menghapus produk
@@ -133,6 +133,9 @@ class TokoController extends Controller
             $product->video_review = $request->file('video_review')->store('product-videos', 'public');
         }
 
+        $nextStatus = $product->status === 'rejected' ? 'pending' : $request->status;
+        $nextRejectionReason = $product->status === 'rejected' ? null : $product->rejection_reason;
+
         $product->update([
             'category_id' => $request->category_id,
             'nama_barang' => $request->nama_barang,
@@ -142,7 +145,8 @@ class TokoController extends Controller
             'video_review' => $product->video_review,
             'metode_serah_terima' => $request->metode_serah_terima,
             'titik_lokasi' => $request->titik_lokasi,
-            'status' => $request->status,
+            'status' => $nextStatus,
+            'rejection_reason' => $nextRejectionReason,
         ]);
 
         return redirect()->route('mahasiswa.toko.index')->with('success', 'Barang dagangan berhasil diperbarui!');
