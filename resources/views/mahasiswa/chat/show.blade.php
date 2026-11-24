@@ -79,27 +79,33 @@
     @endif
 
     <!-- Form Kirim Pesan -->
-    <form action="{{ route('mahasiswa.chat.store', $user->id) }}" method="POST" class="p-4 border-t border-gray-200 bg-white flex gap-2">
-        @csrf
-        @if($product)
-            <input type="hidden" name="product_id" value="{{ $product->id }}">
+        @if(($user->role ?? '') === 'admin' || (method_exists($user, 'isAdmin') && $user->isAdmin()))
+            <div class="p-4 border-t border-amber-200 bg-amber-50 text-center text-xs font-medium text-amber-800">
+                Pesan resmi dari Admin bersifat satu arah dan tidak dapat dibalas.
+            </div>
+        @else
+            <form action="{{ route('mahasiswa.chat.store', $user->id) }}" method="POST" class="p-4 border-t border-gray-200 bg-white flex gap-2">
+                @csrf
+                @if($product)
+                    <input type="hidden" name="product_id" value="{{ $product->id }}">
+                @endif
+
+                <input
+                    type="text"
+                    name="body"
+                    value="{{ old('body', $product ? 'Halo kak, apakah ' . $product->nama_barang . ' masih tersedia?' : '') }}"
+                    placeholder="Tulis pesan..."
+                    class="flex-1 px-4 py-2.5 text-sm border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-orange-500"
+                    required
+                >
+
+                <button
+                    type="submit"
+                    class="px-5 py-2.5 bg-orange-600 hover:bg-orange-700 text-white text-sm font-medium rounded-xl transition-colors"
+                >
+                    Kirim
+                </button>
+            </form>
         @endif
-
-        <input
-            type="text"
-            name="body"
-            value="{{ old('body', $product ? 'Halo kak, apakah ' . $product->nama_barang . ' masih tersedia?' : '') }}"
-            placeholder="Tulis pesan..."
-            class="flex-1 px-4 py-2.5 text-sm border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent"
-            required
-        >
-
-        <button
-            type="submit"
-            class="px-5 py-2.5 bg-orange-600 hover:bg-orange-700 text-white text-sm font-medium rounded-xl transition-colors"
-        >
-            Kirim
-        </button>
-    </form>
-</div>
+    </div>
 @endsection

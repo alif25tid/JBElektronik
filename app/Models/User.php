@@ -39,4 +39,14 @@ class User extends Authenticatable
     {
         return ($this->role ?? '') === 'admin';
     }
+
+    public function warnings()
+    {
+        return $this->hasMany(\App\Models\UserWarning::class, 'user_id');
+    }
+
+    public function unreadWarnings()
+    {
+        return $this->hasMany(\App\Models\UserWarning::class, 'user_id')->where('is_read', false);
+    }
 }

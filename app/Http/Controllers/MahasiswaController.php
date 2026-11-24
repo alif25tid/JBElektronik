@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\Product;
 use App\Models\Category;
 use Illuminate\Support\Facades\Auth;
+use App\Models\UserWarning;
 
 class MahasiswaController extends Controller
 {
@@ -48,5 +49,18 @@ class MahasiswaController extends Controller
         $categories = Category::all();
 
         return view('mahasiswa.toko', compact('myProducts', 'categories'));
+    }
+
+
+    public function acknowledgeWarning(UserWarning $warning)
+    {
+        abort_if($warning->user_id !== Auth::id(), 403);
+
+        $warning->update([
+            'is_read' => true,
+            'read_at' => now(),
+        ]);
+
+        return back();
     }
 }

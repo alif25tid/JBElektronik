@@ -146,7 +146,7 @@
         <div class="px-6 py-4 border-b border-gray-200 flex items-center justify-between">
             <div>
                 <h2 class="text-lg font-bold text-gray-900">Daftar Pengguna</h2>
-                <p class="text-xs text-gray-600">Daftar akun mahasiswa terdaftar (akun admin tidak ditampilkan).</p>
+                <p class="text-xs text-gray-600">Daftar akun mahasiswa terdaftar.</p>
             </div>
             <span class="text-xs font-semibold text-gray-500">{{ $users->count() }} pengguna</span>
         </div>
@@ -159,6 +159,7 @@
                         <th class="px-6 py-3 text-left font-semibold">Email</th>
                         <th class="px-6 py-3 text-left font-semibold">No. WhatsApp</th>
                         <th class="px-6 py-3 text-left font-semibold">Jumlah Barang</th>
+                        <th class="px-6 py-3 text-right font-semibold">Aksi</th>
                     </tr>
                 </thead>
                 <tbody class="divide-y divide-gray-200 bg-white">
@@ -171,6 +172,41 @@
                                 <span class="px-2.5 py-0.5 rounded-full text-xs font-semibold bg-orange-100 text-orange-800">
                                     {{ $user->products_count ?? 0 }} barang
                                 </span>
+                            </td>
+                            <td class="px-6 py-3.5 text-right whitespace-nowrap">
+                                <div class="inline-flex items-center gap-2">
+                                    {{-- Tombol Peringatan: Ikon Segitiga Tanda Seru Saja --}}
+                                    <button
+                                        type="button"
+                                        onclick="openWarningModal(this)"
+                                        data-user-name="{{ $user->name }}"
+                                        data-user-email="{{ $user->email }}"
+                                        data-warn-url="{{ route('admin.users.warn', $user->id) }}"
+                                        title="Beri Peringatan Pelanggaran"
+                                        aria-label="Beri Peringatan Pelanggaran"
+                                        class="p-2 rounded-lg text-amber-600 hover:bg-amber-50 border border-amber-200 transition-colors cursor-pointer"
+                                    >
+                                        <svg class="w-4 h-4" viewBox="0 0 24 24" fill="currentColor">
+                                            <path fill-rule="evenodd" d="M9.401 3.003c1.155-2 4.043-2 5.197 0l7.355 12.748c1.154 2-.29 4.5-2.599 4.5H4.645c-2.309 0-3.752-2.5-2.598-4.5L9.4 3.003zM12 8.25a.75.75 0 01.75.75v3.75a.75.75 0 01-1.5 0V9a.75.75 0 01.75-.75zm0 8.25a.75.75 0 100-1.5.75.75 0 000 1.5z" clip-rule="evenodd" />
+                                        </svg>
+                                    </button>
+
+                                    {{-- Ikon Pesan di Sampingnya (Manual / Arahkan ke Chat atau Link Pesan) --}}
+                                    <button
+                                        type="button"
+                                        onclick="openAdminMessageModal(this)"
+                                        data-user-name="{{ $user->name }}"
+                                        data-user-email="{{ $user->email }}"
+                                        data-message-url="{{ route('admin.users.message', $user->id) }}"
+                                        title="Kirim Pesan Admin"
+                                        aria-label="Kirim Pesan Admin"
+                                        class="p-2 rounded-lg text-sky-600 hover:bg-sky-50 border border-sky-200 transition-colors cursor-pointer"
+                                    >
+                                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 10h.01M12 10h.01M16 10h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
+                                        </svg>
+                                    </button>
+                                </div>
                             </td>
                         </tr>
                     @empty
@@ -303,33 +339,124 @@
                 {{-- Panel Keputusan Moderasi (Konfirmasi & Tolak + Alasan) --}}
                 <div class="pt-4 border-t border-gray-200 space-y-4">
                     {{-- Tombol Konfirmasi --}}
-<form id="modalApproveForm" action="" method="POST">
-    @csrf
-    <button type="submit" class="w-full py-2.5 px-4 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white text-sm font-bold shadow-sm transition-colors cursor-pointer">
-        Konfirmasi &amp; Tampilkan ke Katalog
-    </button>
-</form>
+                    <form id="modalApproveForm" action="" method="POST">
+                        @csrf
+                        <button type="submit" class="w-full py-2.5 px-4 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white text-sm font-bold shadow-sm transition-colors cursor-pointer">
+                            Konfirmasi &amp; Tampilkan ke Katalog
+                        </button>
+                    </form>
 
-{{-- Form Tolak + Alasan Penolakan --}}
-<form id="modalRejectForm" action="" method="POST" class="p-4 rounded-xl bg-red-50/80 border border-red-200 space-y-2.5">
-    @csrf
-    <label for="modalRejectionReason" class="block text-xs font-bold text-red-800">
-        Alasan Penolakan <span class="font-normal text-red-600">(Wajib diisi jika menolak barang)</span>
-    </label>
-    <textarea
-        id="modalRejectionReason"
-        name="rejection_reason"
-        rows="2"
-        required
-        placeholder="Contoh: Barang termasuk kategori terlarang di lingkungan kampus (vape/rokok elektrik)..."
-        class="w-full px-3 py-2 rounded-lg border border-red-300 bg-white text-sm text-gray-800 focus:outline-none focus:ring-2 focus:ring-red-500"
-    ></textarea>
-    <button type="submit" class="w-full py-2 px-4 rounded-xl bg-red-600 hover:bg-red-700 text-white text-sm font-bold transition-colors cursor-pointer">
-        Tolak Barang
-    </button>
-</form>
+                    {{-- Form Tolak + Alasan Penolakan --}}
+                    <form id="modalRejectForm" action="" method="POST" class="p-4 rounded-xl bg-red-50/80 border border-red-200 space-y-2.5">
+                        @csrf
+                        <label for="modalRejectionReason" class="block text-xs font-bold text-red-800">
+                            Alasan Penolakan <span class="font-normal text-red-600">(Wajib diisi jika menolak barang)</span>
+                        </label>
+                        <textarea
+                            id="modalRejectionReason"
+                            name="rejection_reason"
+                            rows="2"
+                            required
+                            placeholder="Contoh: Barang termasuk kategori terlarang di lingkungan kampus (vape/rokok elektrik)..."
+                            class="w-full px-3 py-2 rounded-lg border border-red-300 bg-white text-sm text-gray-800 focus:outline-none focus:ring-2 focus:ring-red-500"
+                        ></textarea>
+                        <button type="submit" class="w-full py-2 px-4 rounded-xl bg-red-600 hover:bg-red-700 text-white text-sm font-bold transition-colors cursor-pointer">
+                            Tolak Barang
+                        </button>
+                    </form>
                 </div>
             </div>
+        </div>
+    </div>
+    <div id="warningModal" class="hidden fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/60 backdrop-blur-xs">
+        <div class="bg-white rounded-2xl shadow-2xl max-w-md w-full border border-amber-200 overflow-hidden">
+            <div class="px-6 py-4 bg-amber-50 border-b border-amber-200 flex items-center justify-between">
+                <div class="flex items-center gap-2.5">
+                    <svg class="w-5 h-5 text-amber-600 flex-shrink-0" viewBox="0 0 24 24" fill="currentColor">
+                        <path fill-rule="evenodd" d="M9.401 3.003c1.155-2 4.043-2 5.197 0l7.355 12.748c1.154 2-.29 4.5-2.599 4.5H4.645c-2.309 0-3.752-2.5-2.598-4.5L9.4 3.003zM12 8.25a.75.75 0 01.75.75v3.75a.75.75 0 01-1.5 0V9a.75.75 0 01.75-.75zm0 8.25a.75.75 0 100-1.5.75.75 0 000 1.5z" clip-rule="evenodd" />
+                    </svg>
+                    <div>
+                        <h3 class="text-base font-bold text-gray-900">Peringatan Pelanggaran</h3>
+                        <p id="warningTargetUser" class="text-xs text-gray-600">-</p>
+                    </div>
+                </div>
+                <button type="button" onclick="closeWarningModal()" class="p-1.5 rounded-lg text-gray-400 hover:text-gray-700 hover:bg-amber-100/70 cursor-pointer">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                    </svg>
+                </button>
+            </div>
+
+            <form id="warningForm" action="" method="POST" class="p-6 space-y-4">
+                @csrf
+                <div>
+                    <label for="warningReasonInput" class="block text-xs font-bold text-gray-700 mb-1.5">
+                        Alasan Pelanggaran <span class="text-red-600">*</span>
+                    </label>
+                    <textarea
+                        id="warningReasonInput"
+                        name="reason"
+                        rows="3"
+                        required
+                        placeholder="Tuliskan alasan pelanggaran pengguna..."
+                        class="w-full px-3 py-2 rounded-xl border border-gray-300 text-sm text-gray-800 focus:outline-none focus:ring-2 focus:ring-amber-500"
+                    ></textarea>
+                </div>
+
+                <div class="flex items-center justify-end gap-2 pt-2">
+                    <button type="button" onclick="closeWarningModal()" class="px-4 py-2 rounded-xl border border-gray-300 text-xs font-semibold text-gray-700 hover:bg-gray-50 cursor-pointer">
+                        Batal
+                    </button>
+                    <button type="submit" class="px-4 py-2 rounded-xl bg-amber-500 hover:bg-amber-600 text-slate-950 text-xs font-bold shadow-xs cursor-pointer">
+                        Kirim Peringatan
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+    {{-- POP-UP MODAL KIRIM PESAN ADMIN --}}
+    <div id="adminMessageModal" class="hidden fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/60 backdrop-blur-xs">
+        <div class="bg-white rounded-2xl shadow-2xl max-w-md w-full border border-sky-200 overflow-hidden">
+            <div class="px-6 py-4 bg-sky-50 border-b border-sky-200 flex items-center justify-between">
+                <div>
+                    <h3 class="text-base font-bold text-gray-900">Kirim Pesan Resmi Admin</h3>
+                    <p id="messageTargetUser" class="text-xs text-gray-600">-</p>
+                </div>
+                <button type="button" onclick="closeAdminMessageModal()" class="p-1.5 rounded-lg text-gray-400 hover:text-gray-700 hover:bg-sky-100/70 cursor-pointer">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                    </svg>
+                </button>
+            </div>
+
+            <form id="adminMessageForm" action="" method="POST" class="p-6 space-y-4">
+                @csrf
+                <div>
+                    <label for="adminMessageBody" class="block text-xs font-bold text-gray-700 mb-1.5">
+                        Isi Pesan <span class="text-red-600">*</span>
+                    </label>
+                    <textarea
+                        id="adminMessageBody"
+                        name="body"
+                        rows="3"
+                        required
+                        placeholder="Tulis pesan untuk pengguna..."
+                        class="w-full px-3 py-2 rounded-xl border border-gray-300 text-sm text-gray-800 focus:outline-none focus:ring-2 focus:ring-sky-500"
+                    ></textarea>
+                    <p class="mt-1.5 text-[11px] text-sky-700">
+                        Pesan ini akan tampil di halaman chat mahasiswa dan tidak dapat dibalas.
+                    </p>
+                </div>
+
+                <div class="flex items-center justify-end gap-2 pt-2">
+                    <button type="button" onclick="closeAdminMessageModal()" class="px-4 py-2 rounded-xl border border-gray-300 text-xs font-semibold text-gray-700 hover:bg-gray-50 cursor-pointer">
+                        Batal
+                    </button>
+                    <button type="submit" class="px-4 py-2 rounded-xl bg-sky-600 hover:bg-sky-700 text-white text-xs font-bold shadow-xs cursor-pointer">
+                        Kirim Pesan
+                    </button>
+                </div>
+            </form>
         </div>
     </div>
 @endsection
@@ -388,17 +515,70 @@
             modal.classList.add('hidden');
         }
 
+        // --- MODAL PERINGATAN PELANGGARAN PENGGUNA ---
+        const warningModal = document.getElementById('warningModal');
+
+        function openWarningModal(btn) {
+            if (!warningModal) return;
+            document.getElementById('warningTargetUser').textContent = `${btn.dataset.userName} (${btn.dataset.userEmail})`;
+            document.getElementById('warningForm').action = btn.dataset.warnUrl;
+            document.getElementById('warningReasonInput').value = '';
+            warningModal.classList.remove('hidden');
+        }
+
+        function closeWarningModal() {
+            if (!warningModal) return;
+            warningModal.classList.add('hidden');
+        }
+
         // Tutup modal saat klik area gelap di luar kotak atau menekan Escape
-        modal.addEventListener('click', function (e) {
-            if (e.target === modal) {
-                closeModerasiModal();
-            }
-        });
+        if (modal) {
+            modal.addEventListener('click', function (e) {
+                if (e.target === modal) {
+                    closeModerasiModal();
+                }
+            });
+        }
+
+        if (warningModal) {
+            warningModal.addEventListener('click', function (e) {
+                if (e.target === warningModal) {
+                    closeWarningModal();
+                }
+            });
+        }
 
         document.addEventListener('keydown', function (e) {
-            if (e.key === 'Escape' && !modal.classList.contains('hidden')) {
-                closeModerasiModal();
+            if (e.key === 'Escape') {
+                if (modal && !modal.classList.contains('hidden')) {
+                    closeModerasiModal();
+                }
+                if (warningModal && !warningModal.classList.contains('hidden')) {
+                    closeWarningModal();
+                }
             }
         });
+        const adminMessageModal = document.getElementById('adminMessageModal');
+
+        function openAdminMessageModal(btn) {
+            if (!adminMessageModal) return;
+            document.getElementById('messageTargetUser').textContent = `${btn.dataset.userName} (${btn.dataset.userEmail})`;
+            document.getElementById('adminMessageForm').action = btn.dataset.messageUrl;
+            document.getElementById('adminMessageBody').value = '';
+            adminMessageModal.classList.remove('hidden');
+        }
+
+        function closeAdminMessageModal() {
+            if (!adminMessageModal) return;
+            adminMessageModal.classList.add('hidden');
+        }
+
+        if (adminMessageModal) {
+            adminMessageModal.addEventListener('click', function (e) {
+                if (e.target === adminMessageModal) {
+                    closeAdminMessageModal();
+                }
+            });
+        }
     </script>
 @endpush

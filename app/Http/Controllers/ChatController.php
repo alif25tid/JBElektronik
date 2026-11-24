@@ -82,6 +82,11 @@ class ChatController extends Controller
             'body' => 'nullable|string|max:2000',
             'product_id' => 'nullable|exists:products,id',
         ]);
+        
+        $targetUser = \App\Models\User::findOrFail($user);
+        if ($targetUser->isAdmin()) { // atau $targetUser->role === 'admin'
+            return back()->with('error', 'Pesan dari admin tidak dapat dibalas.');
+        }
 
         if (!$request->filled('body') && !$request->filled('product_id')) {
             return back()->with('error', 'Pesan tidak boleh kosong.');

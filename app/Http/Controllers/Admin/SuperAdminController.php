@@ -6,6 +6,9 @@ use App\Http\Controllers\Controller;
 use App\Models\Product;
 use App\Models\User;
 use Illuminate\Http\Request;
+use App\Models\UserWarning;
+use Illuminate\Support\Facades\Auth;
+use App\Models\Message;
 
 class SuperAdminController extends Controller
 {
@@ -52,5 +55,41 @@ class SuperAdminController extends Controller
         ]);
 
         return back()->with('success', 'Barang "' . $product->nama_barang . '" ditolak dengan alasan yang dicatat.');
+    }
+
+    public function warnUser(Request $request, User $user)
+    {
+        $request->validate([
+            'reason' => ['required', 'string', 'max:1000'],
+        ], [
+            'reason.required' => 'Alasan pelanggaran wajib diisi.',
+        ]);
+
+        UserWarning::create([
+            'user_id'  => $user->id,
+            'admin_id' => Auth::id(),
+            'reason'   => $request->reason,
+            'is_read'  => false,
+        ]);
+
+        return back()->with('success', "Peringatan berhasil dikirim ke {$user->name}.");
+    }
+
+    public function sendAdminMessage(Request $request, User $user)
+    {
+        $request->validate([
+            'body' => ['required', 'string', 'max:1000'],
+        ], [
+            'body.required' => 'Isi pesan wajib diisi.',
+        ]);
+
+        Message::create([
+            'sender_id'     => Auth::id(),
+            'receiver_id'   => $user->id,
+            'body'          => $request->body,
+            'is_from_admin' => true,
+        ]);
+
+        return back()->with('success', "Pesan dari admin berhasil dikirim ke {$user->name}.");
     }
 }

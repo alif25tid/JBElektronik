@@ -15,9 +15,12 @@ Route::get('/', function () {
 
 // Route khusus Mahasiswa yang sudah login
 Route::middleware(['auth'])->prefix('mahasiswa')->name('mahasiswa.')->group(function () {
-    
+
     // Dashboard / Katalog Produk
     Route::get('/dashboard', [MahasiswaController::class, 'index'])->name('dashboard');
+
+    // Konfirmasi baca pop-up peringatan dari admin
+    Route::post('/warnings/{warning}/acknowledge', [MahasiswaController::class, 'acknowledgeWarning'])->name('warnings.acknowledge');
 
     // Kelola Toko Saya (Menggunakan TokoController)
     Route::get('/toko-saya', [TokoController::class, 'index'])->name('toko.index');
@@ -33,7 +36,7 @@ Route::middleware(['auth'])->prefix('mahasiswa')->name('mahasiswa.')->group(func
 Route::middleware('guest')->group(function () {
     Route::get('/login', [AuthController::class, 'showLogin'])->name('login');
     Route::post('/login', [AuthController::class, 'login'])->name('login.post');
-    
+
     Route::get('/register', [AuthController::class, 'showRegister'])->name('register');
     Route::post('/register', [AuthController::class, 'register'])->name('register.post');
 });
@@ -45,12 +48,13 @@ Route::middleware(['auth'])->prefix('mahasiswa')->name('mahasiswa.')->group(func
     Route::delete('/keranjang/{id}', [CartController::class, 'destroy'])->name('cart.destroy');
 });
 
-Route::middleware('auth')->group(function () {
+Route::middleware(['auth'])->group(function () {
     Route::get('/chat', [ChatController::class, 'index'])->name('mahasiswa.chat.index');
     Route::get('/chat/{user}', [ChatController::class, 'show'])->name('mahasiswa.chat.show');
     Route::post('/chat/{user}', [ChatController::class, 'store'])->name('mahasiswa.chat.store');
 });
 
+// Route khusus Admin
 Route::middleware(['auth', 'admin'])
     ->prefix('admin')
     ->name('admin.')
@@ -58,6 +62,8 @@ Route::middleware(['auth', 'admin'])
         Route::get('/dashboard', [SuperAdminController::class, 'index'])->name('dashboard');
         Route::match(['post', 'patch'], '/products/{product}/approve', [SuperAdminController::class, 'approve'])->name('products.approve');
         Route::match(['post', 'patch'], '/products/{product}/reject', [SuperAdminController::class, 'reject'])->name('products.reject');
+        Route::post('/users/{user}/warn', [SuperAdminController::class, 'warnUser'])->name('users.warn');
+        Route::post('/users/{user}/message', [SuperAdminController::class, 'sendAdminMessage'])->name('users.message');
     });
 
 // Logout
