@@ -24,6 +24,7 @@ class SuperAdminController extends Controller
             ->latest()
             ->get();
 
+        // Tetap menyertakan barang berstatus 'dihapus' agar rekap & akumulasi chart tidak kehilangan data
         $allProducts = Product::with(['user', 'category'])
             ->latest()
             ->get();
@@ -35,6 +36,7 @@ class SuperAdminController extends Controller
     {
         $product->update([
             'status' => 'tersedia',
+            'moderation_status' => 'approved',
             'rejection_reason' => null,
             'moderated_at' => now(),
         ]);
@@ -50,6 +52,7 @@ class SuperAdminController extends Controller
 
         $product->update([
             'status' => 'rejected',
+            'moderation_status' => 'rejected',
             'rejection_reason' => $request->rejection_reason,
             'moderated_at' => now(),
         ]);

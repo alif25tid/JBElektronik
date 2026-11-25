@@ -22,7 +22,7 @@ class MahasiswaController extends Controller
             ->when($categoryId, function ($query, $categoryId) {
                 return $query->where('category_id', $categoryId);
             })
-           ->when($search, function ($query, $search) {
+            ->when($search, function ($query, $search) {
                 return $query->where(function ($q) use ($search) {
                     $q->where('nama_barang', 'like', "%{$search}%")
                         ->orWhereHas('category', function ($catQuery) use ($search) {
@@ -35,7 +35,7 @@ class MahasiswaController extends Controller
             })
             ->inRandomOrder()
             ->get();
-            
+
         $categories = Category::all();
 
         return view('mahasiswa.dashboard', compact('products', 'categories'));
@@ -44,13 +44,16 @@ class MahasiswaController extends Controller
     // 2. Dashboard Mode Penjual (Kelola Barang Saya)
     public function tokoSaya()
     {
-        // Ambil produk yang diunggah oleh mahasiswa yang sedang login
-        $myProducts = Product::where('user_id', Auth::id())->latest()->get();
+        // Kecualikan barang berstatus 'dihapus' agar tidak tampil di daftar aktif penjual
+        $myProducts = Product::where('user_id', Auth::id())
+            ->where('status', '!=', 'dihapus')
+            ->latest()
+            ->get();
+
         $categories = Category::all();
 
         return view('mahasiswa.toko', compact('myProducts', 'categories'));
     }
-
 
     public function acknowledgeWarning(UserWarning $warning)
     {

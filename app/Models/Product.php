@@ -20,6 +20,7 @@ class Product extends Model
         'metode_serah_terima',
         'titik_lokasi',
         'status',
+        'moderation_status',
         'rejection_reason',
         'moderated_at',
     ];
