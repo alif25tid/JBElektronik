@@ -55,7 +55,7 @@
                     <label class="block text-sm font-medium text-gray-700 mb-1">Metode Serah Terima</label>
                     <select name="metode_serah_terima" required class="w-full rounded-lg border-gray-300 border px-3 py-2 text-sm focus:ring-orange-500 focus:border-orange-500">
                         <option value="">Pilih Metode Serah Terima</option>
-                        <option value="COD di Kampus">Atur Lokasi</option>
+                        <option value="Sekitar Kampus">Sekitar kampus</option>
                         <option value="Antar ke Kost">Antar ke Kost</option>
                         <option value="Jemput di Kost">Jemput di Kost</option>
                     </select>

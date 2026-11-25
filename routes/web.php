@@ -5,6 +5,7 @@ use App\Http\Controllers\MahasiswaController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\Mahasiswa\TokoController;
+use App\Http\Controllers\Mahasiswa\ProfileController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\ChatController;
 use App\Http\Controllers\Admin\SuperAdminController;
@@ -30,6 +31,15 @@ Route::middleware(['auth'])->prefix('mahasiswa')->name('mahasiswa.')->group(func
     Route::get('/toko-saya/{id}', [TokoController::class, 'show'])->name('toko.show');
     Route::get('/toko-saya/{id}/edit', [TokoController::class, 'edit'])->name('toko.edit');
     Route::put('/toko-saya/{id}', [TokoController::class, 'update'])->name('toko.update');
+
+    // Rute keranjang
+    Route::get('/keranjang', [CartController::class, 'index'])->name('cart.index');
+    Route::post('/keranjang/tambah/{id}', [CartController::class, 'store'])->name('cart.store');
+    Route::delete('/keranjang/{id}', [CartController::class, 'destroy'])->name('cart.destroy');
+
+    // Halaman Lihat & Edit Data Diri Akun
+    Route::get('/akun', [ProfileController::class, 'index'])->name('profile.index');
+    Route::put('/akun', [ProfileController::class, 'update'])->name('profile.update');
 });
 
 // Route Guest (Login & Register)
@@ -41,13 +51,7 @@ Route::middleware('guest')->group(function () {
     Route::post('/register', [AuthController::class, 'register'])->name('register.post');
 });
 
-Route::middleware(['auth'])->prefix('mahasiswa')->name('mahasiswa.')->group(function () {
-    // Rute keranjang
-    Route::get('/keranjang', [CartController::class, 'index'])->name('cart.index');
-    Route::post('/keranjang/tambah/{id}', [CartController::class, 'store'])->name('cart.store');
-    Route::delete('/keranjang/{id}', [CartController::class, 'destroy'])->name('cart.destroy');
-});
-
+// Route Chat Mahasiswa
 Route::middleware(['auth'])->group(function () {
     Route::get('/chat', [ChatController::class, 'index'])->name('mahasiswa.chat.index');
     Route::get('/chat/{user}', [ChatController::class, 'show'])

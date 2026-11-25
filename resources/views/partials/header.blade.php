@@ -90,7 +90,7 @@
                     </form>
                 </div>
 
-                <!-- Bagian Kanan di Dalam Lonjong: Chat, Keranjang, & Logout -->
+                <!-- Bagian Kanan di Dalam Lonjong: Chat, Keranjang, Akun, & Logout -->
                 <div class="flex items-center gap-1 sm:gap-1.5 flex-shrink-0">
                     <!-- Chat -->
                     @php
@@ -135,6 +135,20 @@
                             </span>
                         @endif
                     </a>
+
+                    <!-- Akun (Di Antara Keranjang & Logout) -->
+                    @auth
+                        <a
+                            href="{{ route('mahasiswa.profile.index') }}"
+                            title="Akun Saya"
+                            aria-label="Akun Saya"
+                            class="p-2 rounded-full {{ request()->routeIs('mahasiswa.profile.*') ? 'bg-orange-500 text-white shadow-xs' : 'text-orange-600 hover:bg-orange-50' }} transition-colors"
+                        >
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                            </svg>
+                        </a>
+                    @endauth
 
                     <!-- Logout -->
                     <form method="POST" action="{{ route('logout') }}" class="inline">
