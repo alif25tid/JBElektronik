@@ -50,8 +50,12 @@ Route::middleware(['auth'])->prefix('mahasiswa')->name('mahasiswa.')->group(func
 
 Route::middleware(['auth'])->group(function () {
     Route::get('/chat', [ChatController::class, 'index'])->name('mahasiswa.chat.index');
-    Route::get('/chat/{user}', [ChatController::class, 'show'])->name('mahasiswa.chat.show');
-    Route::post('/chat/{user}', [ChatController::class, 'store'])->name('mahasiswa.chat.store');
+    Route::get('/chat/{user}', [ChatController::class, 'show'])
+        ->whereNumber('user')
+        ->name('mahasiswa.chat.show');
+    Route::post('/chat/{user}', [ChatController::class, 'store'])
+        ->whereNumber('user')
+        ->name('mahasiswa.chat.store');
 });
 
 // Route khusus Admin

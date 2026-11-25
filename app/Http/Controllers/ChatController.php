@@ -82,9 +82,15 @@ class ChatController extends Controller
             'body' => 'nullable|string|max:2000',
             'product_id' => 'nullable|exists:products,id',
         ]);
-        
-        $targetUser = \App\Models\User::findOrFail($user);
-        if ($targetUser->isAdmin()) { // atau $targetUser->role === 'admin'
+
+        if ($user->id === Auth::id()) {
+            return back()->with('error', 'Anda tidak dapat mengirim pesan ke akun sendiri.');
+        }
+
+        $isTargetAdmin = ($user->role ?? '') === 'admin'
+            || (method_exists($user, 'isAdmin') && $user->isAdmin());
+
+        if ($isTargetAdmin) {
             return back()->with('error', 'Pesan dari admin tidak dapat dibalas.');
         }
 

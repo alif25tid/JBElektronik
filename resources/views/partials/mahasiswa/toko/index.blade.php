@@ -1,0 +1,114 @@
+@extends('layouts.app')
+
+@section('title', 'Toko Saya - Jualin PCR')
+
+@section('content')
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+    <div class="flex justify-between items-center mb-6">
+        <div>
+            <h1 class="text-2xl font-bold text-gray-900">Kelola Toko Saya</h1>
+            <p class="text-sm text-gray-500">Daftar barang elektronik yang sedang Anda iklankan di kampus.</p>
+        </div>
+        <a href="{{ route('mahasiswa.toko.create') }}" class="px-4 py-2 bg-orange-600 hover:bg-orange-700 text-white font-medium text-sm rounded-lg shadow-sm transition-colors">
+            + Tambah Barang Baru
+        </a>
+    </div>
+
+    @if(session('success'))
+        <div class="mb-4 p-4 bg-green-50 border border-green-200 text-green-700 rounded-lg text-sm">
+            {{ session('success') }}
+        </div>
+    @endif
+
+    <div class="bg-white border border-gray-200 rounded-xl overflow-hidden shadow-sm">
+        <div class="overflow-x-auto">
+            <table class="min-w-full divide-y divide-gray-200">
+                <thead class="bg-gray-50">
+                    <tr>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Barang</th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Kategori</th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Harga</th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Aksi</th>
+                    </tr>
+                </thead>
+                <tbody class="bg-white divide-y divide-gray-200">
+                    @forelse($products as $product)
+                        <tr>
+                            <td class="px-6 py-4">
+                                <div class="flex items-start">
+                                    <div class="h-10 w-10 flex-shrink-0 bg-gray-100 rounded-lg overflow-hidden">
+                                        @if($product->foto)
+                                            <img src="{{ asset('storage/' . $product->foto) }}" alt="{{ $product->nama_barang }}" class="w-10 h-10 object-cover rounded-lg">
+                                        @endif
+                                    </div>
+                                    <div class="ml-4">
+                                        <div class="text-sm font-medium text-gray-900">{{ $product->nama_barang }}</div>
+                                        <div class="text-xs text-gray-500">{{ $product->titik_lokasi }}</div>
+
+                                        @if($product->status === 'pending')
+                                            <div class="mt-2 p-2.5 rounded-lg bg-amber-50 border border-amber-200 text-xs text-amber-800 max-w-xs">
+                                                Menunggu konfirmasi Super Admin. Barang belum tampil di katalog.
+                                            </div>
+                                        @elseif($product->status === 'rejected')
+                                            <div class="mt-2 p-2.5 rounded-lg bg-red-50 border border-red-200 text-xs text-red-800 max-w-xs space-y-1">
+                                                <p class="font-bold">Peringatan: Barang ini ditolak oleh Super Admin dan tidak tampil di katalog.</p>
+                                                @if($product->rejection_reason)
+                                                    <p>Alasan: {{ $product->rejection_reason }}</p>
+                                                @endif
+                                            </div>
+                                        @endif
+                                    </div>
+                                </div>
+                            </td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-700">
+                                {{ $product->category->nama_kategori ?? '-' }}
+                            </td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm font-semibold text-orange-600">
+                                Rp {{ number_format($product->harga, 0, ',', '.') }}
+                            </td>
+                            <td class="px-6 py-4 whitespace-nowrap">
+                                @if(in_array($product->status, ['approved', 'tersedia']))
+                                    <span class="px-2.5 py-1 text-xs font-semibold rounded-full bg-green-100 text-green-800">
+                                        Disetujui
+                                    </span>
+                                @elseif($product->status === 'pending')
+                                    <span class="px-2.5 py-1 text-xs font-semibold rounded-full bg-amber-100 text-amber-800">
+                                        Menunggu Konfirmasi
+                                    </span>
+                                @elseif($product->status === 'rejected')
+                                    <span class="px-2.5 py-1 text-xs font-semibold rounded-full bg-red-100 text-red-800">
+                                        Ditolak
+                                    </span>
+                                @else
+                                    <span class="px-2.5 py-1 text-xs font-semibold rounded-full bg-gray-100 text-gray-800">
+                                        {{ ucfirst($product->status) }}
+                                    </span>
+                                @endif
+                            </td>
+                            <td class="px-6 py-4 whitespace-nowrap">
+                                <div class="flex items-center space-x-4">
+                                    <!-- Tombol Edit -->
+                                    <a href="{{ route('mahasiswa.toko.edit', $product->id) }}" class="text-amber-600 hover:text-amber-900 font-semibold">Edit</a>
+                                    <!-- Tombol Hapus -->
+                                    <form action="{{ route('mahasiswa.toko.destroy', $product->id) }}" method="POST" class="inline-block m-0" onsubmit="return confirm('Yakin ingin menghapus barang ini?')">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button type="submit" class="text-red-600 hover:text-red-900 font-semibold bg-transparent border-0 p-0 cursor-pointer">Hapus</button>
+                                    </form>
+                                </div>
+                            </td>
+                        </tr>
+                    @empty
+                        <tr>
+                            <td colspan="5" class="px-6 py-12 text-center text-sm text-gray-500">
+                                Belum ada barang yang Anda jual. Silakan klik tombol <strong>+ Tambah Barang Baru</strong> di atas.
+                            </td>
+                        </tr>
+                    @endforelse
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+@endsection
