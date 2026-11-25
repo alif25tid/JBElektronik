@@ -14,7 +14,7 @@
     <!-- KOLOM KANAN: Form Registrasi -->
     <div class="p-8 sm:p-10 flex flex-col justify-center">
         <div class="text-center mb-6">
-            <img src="{{ asset('images/logonama.png') }}" alt="Logo Jualin PCR" class="w-40 h-auto object-contain mx-auto">
+            <img src="{{ asset('images/logologin.png') }}" alt="Logo Jualin PCR" class="w-40 h-auto object-contain mx-auto">
             <p class="text-xs text-gray-500 mt-1">Gunakan email resmi kampus (<strong>pcr.ac.id</strong>)</p>
         </div>
 

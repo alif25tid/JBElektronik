@@ -14,7 +14,7 @@
     <!-- KOLOM KANAN: Form Login -->
     <div class="p-8 sm:p-12 flex flex-col justify-center">
         <div class="text-center mb-8">
-            <img src="{{ asset('images/logonama.png') }}" alt="Logo Jualin PCR" class="w-48 h-auto object-contain mx-auto">
+            <img src="{{ asset('images/logologin.png') }}" alt="Logo Jualin PCR" class="w-48 h-auto object-contain mx-auto">
         </div>
 
         <!-- Notifikasi Sukses Registrasi -->

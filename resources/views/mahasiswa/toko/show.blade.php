@@ -63,10 +63,10 @@
                     Rp {{ number_format($product->harga, 0, ',', '.') }}
                 </div>
 
-                <!-- Deskripsi -->
+                <!-- Deskripsi (Ukuran Fixed & Scrollable) -->
                 <div class="mb-6">
                     <h4 class="text-sm font-semibold text-gray-700 mb-1">Deskripsi Barang</h4>
-                    <p class="text-sm text-gray-600 whitespace-pre-line leading-relaxed bg-gray-50 p-4 rounded-xl border border-gray-100">{{ $product->deskripsi }}</p>
+                    <div class="h-40 overflow-y-auto pr-2 bg-gray-50 p-4 rounded-xl border border-gray-100 text-sm text-gray-600 whitespace-pre-line leading-relaxed">{{ $product->deskripsi }}</div>
                 </div>
 
                 <!-- Info Serah Terima & Lokasi -->
