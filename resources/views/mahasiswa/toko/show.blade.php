@@ -3,6 +3,20 @@
 @section('title', 'Detail Barang - Jualin PCR')
 
 @section('content')
+@php
+    $galleryPhotos = collect();
+
+    if ($product->relationLoaded('photos') && $product->photos->isNotEmpty()) {
+        $galleryPhotos = $product->photos->map(function ($photo) {
+            return asset('storage/' . $photo->path);
+        })->values();
+    }
+
+    if ($galleryPhotos->isEmpty() && !empty($product->foto)) {
+        $galleryPhotos = collect([asset('storage/' . $product->foto)]);
+    }
+@endphp
+
 <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
 
     @if(session('success'))
@@ -19,14 +33,82 @@
     @endif
 
     <div class="bg-white border border-orange-100/90 rounded-2xl shadow-sm overflow-hidden grid grid-cols-1 md:grid-cols-2 gap-8 p-6 sm:p-8">
-        <!-- Kolom Kiri: Foto & Video Review -->
+        <!-- Kolom Kiri: Slider Foto & Video Review -->
         <div class="space-y-6">
-            <!-- Foto Utama -->
             <div>
-                <h3 class="text-xs font-bold text-orange-500 uppercase tracking-wider mb-2">Foto Barang</h3>
-                <div class="aspect-w-4 aspect-h-3 bg-orange-50/40 rounded-2xl overflow-hidden border border-orange-100">
-                    <img src="{{ asset('storage/' . $product->foto) }}" alt="{{ $product->nama_barang }}" class="w-full h-72 object-cover rounded-2xl shadow-xs">
+                <div class="flex items-center justify-between gap-2 mb-2">
+                    <h3 class="text-xs font-bold text-orange-500 uppercase tracking-wider">Foto Barang</h3>
+                    @if($galleryPhotos->count() > 1)
+                        <span id="detailPhotoCounter" class="text-xs font-semibold text-orange-600 bg-orange-50 px-2.5 py-0.5 rounded-full border border-orange-200">
+                            1 / {{ $galleryPhotos->count() }}
+                        </span>
+                    @endif
                 </div>
+
+                @if($galleryPhotos->isNotEmpty())
+                    <div class="relative bg-orange-50/40 rounded-2xl overflow-hidden border border-orange-100">
+                        <img
+                            id="detailMainPhoto"
+                            src="{{ $galleryPhotos->first() }}"
+                            alt="{{ $product->nama_barang }}"
+                            class="w-full h-72 object-cover rounded-2xl shadow-xs transition-opacity duration-200"
+                        >
+
+                        @if($galleryPhotos->count() > 1)
+                            <button
+                                type="button"
+                                id="detailPrevPhotoBtn"
+                                aria-label="Foto sebelumnya"
+                                class="w-9 h-9 rounded-full bg-white/90 hover:bg-white text-gray-800 border border-orange-200 shadow-sm flex items-center justify-center absolute left-3 top-1/2 -translate-y-1/2 transition-all cursor-pointer"
+                            >
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+                                </svg>
+                            </button>
+
+                            <button
+                                type="button"
+                                id="detailNextPhotoBtn"
+                                aria-label="Foto berikutnya"
+                                class="w-9 h-9 rounded-full bg-white/90 hover:bg-white text-gray-800 border border-orange-200 shadow-sm flex items-center justify-center absolute right-3 top-1/2 -translate-y-1/2 transition-all cursor-pointer"
+                            >
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+                                </svg>
+                            </button>
+
+                            <div id="detailPhotoDots" class="flex items-center justify-center gap-1.5 py-2.5 bg-white/85 border-t border-orange-100">
+                                @foreach($galleryPhotos as $idx => $url)
+                                    <button
+                                        type="button"
+                                        data-photo-index="{{ $idx }}"
+                                        aria-label="Lihat foto {{ $idx + 1 }}"
+                                        class="detail-photo-dot h-2 rounded-full transition-all cursor-pointer {{ $idx === 0 ? 'w-5 bg-orange-500' : 'w-2 bg-orange-200 hover:bg-orange-300' }}"
+                                    ></button>
+                                @endforeach
+                            </div>
+                        @endif
+                    </div>
+
+                    @if($galleryPhotos->count() > 1)
+                        <div id="detailPhotoThumbs" class="mt-3 flex items-center gap-2.5 overflow-x-auto pb-1">
+                            @foreach($galleryPhotos as $idx => $url)
+                                <button
+                                    type="button"
+                                    data-photo-index="{{ $idx }}"
+                                    aria-label="Thumbnail foto {{ $idx + 1 }}"
+                                    class="detail-photo-thumb w-16 h-16 rounded-xl overflow-hidden border-2 shrink-0 transition-all cursor-pointer {{ $idx === 0 ? 'border-orange-500 ring-2 ring-orange-200' : 'border-orange-100 opacity-75 hover:opacity-100' }}"
+                                >
+                                    <img src="{{ $url }}" alt="{{ $product->nama_barang }} {{ $idx + 1 }}" class="w-full h-full object-cover">
+                                </button>
+                            @endforeach
+                        </div>
+                    @endif
+                @else
+                    <div class="bg-orange-50/40 rounded-2xl border border-orange-100 h-72 flex items-center justify-center text-sm text-gray-400">
+                        Tidak ada foto produk
+                    </div>
+                @endif
             </div>
 
             <!-- Video Review (Jika Ada) -->
@@ -112,4 +194,64 @@
         </div>
     </div>
 </div>
+
+@if($galleryPhotos->count() > 1)
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const photos = @json($galleryPhotos->values());
+        const mainPhoto = document.getElementById('detailMainPhoto');
+        const counterEl = document.getElementById('detailPhotoCounter');
+        const prevBtn = document.getElementById('detailPrevPhotoBtn');
+        const nextBtn = document.getElementById('detailNextPhotoBtn');
+        const dots = Array.from(document.querySelectorAll('.detail-photo-dot'));
+        const thumbs = Array.from(document.querySelectorAll('.detail-photo-thumb'));
+
+        if (!mainPhoto || !photos.length) return;
+
+        let activeIndex = 0;
+
+        function renderSlide(nextIdx) {
+            activeIndex = (nextIdx + photos.length) % photos.length;
+            mainPhoto.src = photos[activeIndex];
+
+            if (counterEl) {
+                counterEl.textContent = `${activeIndex + 1} / ${photos.length}`;
+            }
+
+            dots.forEach((dot, idx) => {
+                dot.classList.remove('w-5', 'bg-orange-500', 'w-2', 'bg-orange-200', 'hover:bg-orange-300');
+                if (idx === activeIndex) {
+                    dot.classList.add('w-5', 'bg-orange-500');
+                } else {
+                    dot.classList.add('w-2', 'bg-orange-200', 'hover:bg-orange-300');
+                }
+            });
+
+            thumbs.forEach((thumb, idx) => {
+                thumb.classList.remove('border-orange-500', 'ring-2', 'ring-orange-200', 'border-orange-100', 'opacity-75', 'hover:opacity-100');
+                if (idx === activeIndex) {
+                    thumb.classList.add('border-orange-500', 'ring-2', 'ring-orange-200');
+                } else {
+                    thumb.classList.add('border-orange-100', 'opacity-75', 'hover:opacity-100');
+                }
+            });
+        }
+
+        prevBtn?.addEventListener('click', () => renderSlide(activeIndex - 1));
+        nextBtn?.addEventListener('click', () => renderSlide(activeIndex + 1));
+
+        dots.forEach((dot) => {
+            dot.addEventListener('click', () => {
+                renderSlide(Number(dot.dataset.photoIndex));
+            });
+        });
+
+        thumbs.forEach((thumb) => {
+            thumb.addEventListener('click', () => {
+                renderSlide(Number(thumb.dataset.photoIndex));
+            });
+        });
+    });
+</script>
+@endif
 @endsection

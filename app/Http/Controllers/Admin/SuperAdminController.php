@@ -19,13 +19,12 @@ class SuperAdminController extends Controller
             ->latest()
             ->get();
 
-        $pendingProducts = Product::with(['user', 'category'])
+        $pendingProducts = Product::with(['user', 'category', 'photos'])
             ->where('status', 'pending')
             ->latest()
             ->get();
 
-        // Tetap menyertakan barang berstatus 'dihapus' agar rekap & akumulasi chart tidak kehilangan data
-        $allProducts = Product::with(['user', 'category'])
+        $allProducts = Product::with(['user', 'category', 'photos'])
             ->latest()
             ->get();
 

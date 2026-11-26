@@ -445,7 +445,42 @@
                 </span>
             </div>
 
-            <div class="px-6 py-3.5 border-b border-slate-200 bg-white flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3">
+            {{-- Filter Status Barang (Disetujui, Ditolak, Dihapus) --}}
+            <div class="px-6 pt-3.5 pb-2 bg-white flex flex-wrap items-center justify-between gap-2">
+                <span class="text-xs font-semibold text-slate-600">Filter Status:</span>
+                <div class="inline-flex flex-wrap items-center gap-1.5" role="group" aria-label="Filter status barang">
+                    <button
+                        type="button"
+                        data-product-status-filter="all"
+                        class="product-status-filter-btn px-3 py-1.5 rounded-xl text-xs font-semibold bg-gradient-to-r from-slate-900 via-blue-950 to-blue-900 text-white shadow-2xs transition-all cursor-pointer"
+                    >
+                        Semua Status
+                    </button>
+                    <button
+                        type="button"
+                        data-product-status-filter="approved"
+                        class="product-status-filter-btn px-3 py-1.5 rounded-xl text-xs font-semibold bg-slate-100 text-slate-700 hover:bg-emerald-50 hover:text-emerald-800 border border-slate-200 transition-all cursor-pointer"
+                    >
+                        Disetujui
+                    </button>
+                    <button
+                        type="button"
+                        data-product-status-filter="rejected"
+                        class="product-status-filter-btn px-3 py-1.5 rounded-xl text-xs font-semibold bg-slate-100 text-slate-700 hover:bg-red-50 hover:text-red-800 border border-slate-200 transition-all cursor-pointer"
+                    >
+                        Ditolak
+                    </button>
+                    <button
+                        type="button"
+                        data-product-status-filter="dihapus"
+                        class="product-status-filter-btn px-3 py-1.5 rounded-xl text-xs font-semibold bg-slate-100 text-slate-700 hover:bg-slate-200 hover:text-slate-900 border border-slate-200 transition-all cursor-pointer"
+                    >
+                        Dihapus
+                    </button>
+                </div>
+            </div>
+
+            <div class="px-6 py-3 border-b border-slate-200 bg-white flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3">
                 <div class="relative flex-1">
                     <svg class="w-4 h-4 text-slate-400 absolute left-3.5 top-1/2 -translate-y-1/2 pointer-events-none" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
@@ -468,6 +503,7 @@
                     >
                         <option value="product_name">Nama Produk</option>
                         <option value="user_name">Nama Pengguna</option>
+                        <option value="price">Harga Produk</option>
                         <option value="uploaded_at" selected>Tanggal Upload</option>
                     </select>
 
@@ -492,7 +528,6 @@
                         <tr>
                             <th class="px-5 py-3 text-left font-semibold">Nama Produk</th>
                             <th class="px-5 py-3 text-left font-semibold">Nama Pengguna</th>
-                            <th class="px-5 py-3 text-left font-semibold">Tgl. Bergabung</th>
                             <th class="px-5 py-3 text-left font-semibold">Harga</th>
                             <th class="px-5 py-3 text-left font-semibold">Status</th>
                             <th class="px-5 py-3 text-left font-semibold">Tgl. Upload</th>
@@ -501,13 +536,6 @@
                     <tbody id="productsTableBody" class="divide-y divide-slate-200 bg-white">
                         @forelse($allProducts as $product)
                             @php
-                                $userJoinedDt = optional($product->user)->created_at
-                                    ? \Carbon\Carbon::parse($product->user->created_at)->timezone($tz)
-                                    : null;
-                                $userJoinedFormatted = $userJoinedDt
-                                    ? ($userJoinedDt->day . ' ' . ($bulanIndoShort[$userJoinedDt->month] ?? $userJoinedDt->format('M')) . ' ' . $userJoinedDt->year)
-                                    : '-';
-
                                 $uploadDt = $product->created_at
                                     ? \Carbon\Carbon::parse($product->created_at)->timezone($tz)
                                     : null;
@@ -515,11 +543,17 @@
                                     ? ($uploadDt->day . ' ' . ($bulanIndoShort[$uploadDt->month] ?? $uploadDt->format('M')) . ' ' . $uploadDt->year . ' ' . $uploadDt->format('H:i'))
                                     : '-';
                                 $uploadTimestamp = $uploadDt ? $uploadDt->timestamp : 0;
+
+                                $normalizedStatus = in_array($product->status, ['tersedia', 'approved'])
+                                    ? 'approved'
+                                    : ($product->status ?? '');
                             @endphp
                             <tr
                                 class="product-data-row hover:bg-blue-50/30 transition-colors"
                                 data-product-name="{{ mb_strtolower($product->nama_barang ?? '') }}"
                                 data-user-name="{{ mb_strtolower($product->user->name ?? '') }}"
+                                data-price="{{ (int) ($product->harga ?? 0) }}"
+                                data-status="{{ $normalizedStatus }}"
                                 data-uploaded-at="{{ $uploadTimestamp }}"
                             >
                                 <td class="px-5 py-3.5 font-semibold text-slate-900">
@@ -531,7 +565,6 @@
                                     @endif
                                 </td>
                                 <td class="px-5 py-3.5 text-slate-700 whitespace-nowrap">{{ $product->user->name ?? '-' }}</td>
-                                <td class="px-5 py-3.5 text-slate-600 whitespace-nowrap text-xs">{{ $userJoinedFormatted }}</td>
                                 <td class="px-5 py-3.5 font-semibold text-slate-900 whitespace-nowrap">Rp {{ number_format($product->harga, 0, ',', '.') }}</td>
                                 <td class="px-5 py-3.5 whitespace-nowrap">
                                     @if(in_array($product->status, ['tersedia', 'approved']))
@@ -550,15 +583,15 @@
                             </tr>
                         @empty
                             <tr id="productsInitialEmptyRow">
-                                <td colspan="6" class="px-6 py-8 text-center text-sm text-slate-500">
+                                <td colspan="5" class="px-6 py-8 text-center text-sm text-slate-500">
                                     Belum ada data barang.
                                 </td>
                             </tr>
                         @endforelse
 
                         <tr id="productsSearchEmptyRow" class="hidden">
-                            <td colspan="6" class="px-6 py-8 text-center text-sm text-slate-500">
-                                Tidak ada barang yang cocok dengan nama pengguna tersebut.
+                            <td colspan="5" class="px-6 py-8 text-center text-sm text-slate-500">
+                                Tidak ada barang yang cocok dengan filter atau nama pengguna tersebut.
                             </td>
                         </tr>
                     </tbody>
@@ -1295,12 +1328,13 @@
                 renderUsersTable();
             }
 
-            // 4. PENCARIAN NAMA PENGGUNA, SORTING TOGGLE (ASC/DESC), & PAGINATION (10 DATA) DAFTAR BARANG
+            // 4. FILTER STATUS, PENCARIAN NAMA PENGGUNA, SORTING TOGGLE (ASC/DESC), & PAGINATION (10 DATA) DAFTAR BARANG
             const productsTableBody = document.getElementById('productsTableBody');
             const productSearchInput = document.getElementById('productUserSearchInput');
             const productSortFieldSelect = document.getElementById('productSortField');
             const productSortDirBtn = document.getElementById('productSortDirectionBtn');
             const productSortArrowIcon = document.getElementById('productSortArrowIcon');
+            const productStatusButtons = Array.from(document.querySelectorAll('.product-status-filter-btn'));
             const productsSearchEmptyRow = document.getElementById('productsSearchEmptyRow');
             const productsCountBadge = document.getElementById('productsFilteredCountBadge');
             const productsPaginationInfo = document.getElementById('productsPaginationInfo');
@@ -1312,7 +1346,51 @@
                 const allProductRows = Array.from(productsTableBody.querySelectorAll('.product-data-row'));
                 const perPage = 10;
                 let currentPage = 1;
+                let selectedStatusFilter = 'all';
                 let productSortDirection = productSortDirBtn.dataset.direction === 'asc' ? 'asc' : 'desc';
+
+                function syncStatusFilterButtonsUI() {
+                    const activeBtnClasses = [
+                        'bg-gradient-to-r',
+                        'from-slate-900',
+                        'via-blue-950',
+                        'to-blue-900',
+                        'text-white',
+                        'shadow-2xs'
+                    ];
+
+                    productStatusButtons.forEach((btn) => {
+                        const filterVal = btn.dataset.productStatusFilter;
+                        const isActive = filterVal === selectedStatusFilter;
+
+                        btn.classList.remove(
+                            ...activeBtnClasses,
+                            'bg-slate-100',
+                            'text-slate-700',
+                            'border',
+                            'border-slate-200',
+                            'hover:bg-emerald-50',
+                            'hover:text-emerald-800',
+                            'hover:bg-red-50',
+                            'hover:text-red-800',
+                            'hover:bg-slate-200',
+                            'hover:text-slate-900'
+                        );
+
+                        if (isActive) {
+                            btn.classList.add(...activeBtnClasses);
+                        } else {
+                            btn.classList.add('bg-slate-100', 'text-slate-700', 'border', 'border-slate-200');
+                            if (filterVal === 'approved') {
+                                btn.classList.add('hover:bg-emerald-50', 'hover:text-emerald-800');
+                            } else if (filterVal === 'rejected') {
+                                btn.classList.add('hover:bg-red-50', 'hover:text-red-800');
+                            } else {
+                                btn.classList.add('hover:bg-slate-200', 'hover:text-slate-900');
+                            }
+                        }
+                    });
+                }
 
                 function syncProductDirectionUI() {
                     const isAsc = productSortDirection === 'asc';
@@ -1330,9 +1408,14 @@
                     const keyword = productSearchInput.value.trim().toLowerCase();
                     const sortField = productSortFieldSelect.value;
 
+                    syncStatusFilterButtonsUI();
                     syncProductDirectionUI();
 
                     const filteredRows = allProductRows.filter((row) => {
+                        const rowStatus = row.dataset.status || '';
+                        const matchesStatus = selectedStatusFilter === 'all' || rowStatus === selectedStatusFilter;
+                        if (!matchesStatus) return false;
+
                         if (!keyword) return true;
                         const userName = row.dataset.userName || '';
                         return userName.includes(keyword);
@@ -1344,6 +1427,8 @@
                             comparison = (a.dataset.productName || '').localeCompare(b.dataset.productName || '', 'id');
                         } else if (sortField === 'user_name') {
                             comparison = (a.dataset.userName || '').localeCompare(b.dataset.userName || '', 'id');
+                        } else if (sortField === 'price') {
+                            comparison = Number(a.dataset.price || 0) - Number(b.dataset.price || 0);
                         } else {
                             comparison = Number(a.dataset.uploadedAt || 0) - Number(b.dataset.uploadedAt || 0);
                         }
@@ -1396,6 +1481,14 @@
                         }
                     }
                 }
+
+                productStatusButtons.forEach((btn) => {
+                    btn.addEventListener('click', () => {
+                        selectedStatusFilter = btn.dataset.productStatusFilter || 'all';
+                        currentPage = 1;
+                        renderProductsTable();
+                    });
+                });
 
                 productSearchInput.addEventListener('input', () => {
                     currentPage = 1;

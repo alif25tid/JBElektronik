@@ -46,4 +46,23 @@ class Product extends Model
     {
         return $query->where('status', 'approved');
     }
+
+    public function photos()
+    {
+        return $this->hasMany(ProductPhoto::class)->orderBy('sort_order');
+    }
+
+    // Helper agar tetap kompatibel dengan data lama ($product->foto)
+    public function getPrimaryPhotoUrlAttribute(): ?string
+    {
+        $firstPhoto = $this->relationLoaded('photos')
+            ? $this->photos->first()
+            : $this->photos()->first();
+
+        if ($firstPhoto) {
+            return asset('storage/' . $firstPhoto->path);
+        }
+
+        return $this->foto ? asset('storage/' . $this->foto) : null;
+    }
 }

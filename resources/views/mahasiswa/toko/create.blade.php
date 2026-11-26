@@ -109,14 +109,22 @@
             </div>
 
             <div>
-                <label class="block text-sm font-medium text-gray-700 mb-1">Foto Barang (Maks 2MB)</label>
+                <label for="createFotosInput" class="block text-sm font-medium text-gray-700 mb-1">
+                    Foto Barang <span class="text-xs font-normal text-gray-500">(Minimal 1, maksimal 3 foto &middot; Maks 2MB per foto)</span>
+                </label>
                 <input
                     type="file"
-                    name="foto"
-                    accept="image/*"
+                    id="createFotosInput"
+                    name="fotos[]"
+                    accept="image/jpeg,image/png,image/jpg,image/webp"
+                    multiple
                     required
-                    class="w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-orange-50 file:text-orange-600 hover:file:bg-orange-100 transition-all"
+                    class="w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-orange-50 file:text-orange-600 hover:file:bg-orange-100 transition-all cursor-pointer"
                 >
+                <p id="createFotosError" class="hidden mt-1.5 text-xs font-semibold text-red-600">
+                    Maksimal hanya boleh melampirkan 3 foto. Silakan pilih ulang maksimal 3 foto.
+                </p>
+                <div id="createFotosPreview" class="mt-3 flex flex-wrap gap-2.5"></div>
             </div>
 
             <div>
@@ -125,7 +133,7 @@
                     type="file"
                     name="video_review"
                     accept="video/mp4,video/quicktime,video/mkv"
-                    class="w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-orange-50 file:text-orange-600 hover:file:bg-orange-100 transition-all"
+                    class="w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-orange-50 file:text-orange-600 hover:file:bg-orange-100 transition-all cursor-pointer"
                 >
             </div>
 
@@ -146,4 +154,39 @@
         </form>
     </div>
 </div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const input = document.getElementById('createFotosInput');
+        const errorEl = document.getElementById('createFotosError');
+        const previewEl = document.getElementById('createFotosPreview');
+        const maxFiles = 3;
+
+        if (!input || !previewEl) return;
+
+        input.addEventListener('change', function () {
+            previewEl.innerHTML = '';
+
+            if (this.files.length > maxFiles) {
+                if (errorEl) errorEl.classList.remove('hidden');
+                this.value = '';
+                return;
+            }
+
+            if (errorEl) errorEl.classList.add('hidden');
+
+            Array.from(this.files).forEach((file) => {
+                const reader = new FileReader();
+                reader.onload = function (e) {
+                    const img = document.createElement('img');
+                    img.src = e.target.result;
+                    img.alt = file.name;
+                    img.className = 'w-20 h-20 object-cover rounded-xl border border-orange-200 shadow-2xs';
+                    previewEl.appendChild(img);
+                };
+                reader.readAsDataURL(file);
+            });
+        });
+    });
+</script>
 @endsection
