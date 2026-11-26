@@ -4,15 +4,19 @@
 
 @section('content')
 <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-    <div class="bg-white border border-gray-200 rounded-xl shadow-sm p-6 sm:p-8">
+    <div class="bg-white border border-orange-100 rounded-2xl shadow-sm p-6 sm:p-8">
         <div class="mb-6">
-            <h1 class="text-2xl font-bold text-gray-900">Tambah Barang Dagangan</h1>
-            <p class="text-sm text-gray-500">Isi detail barang elektronik yang ingin Anda tawarkan ke sesama mahasiswa.</p>
+            <h1 class="text-2xl font-extrabold bg-gradient-to-r from-orange-500 via-amber-500 to-orange-600 bg-clip-text text-transparent">
+                Tambah Barang Dagangan
+            </h1>
+            <p class="text-sm text-gray-500 mt-1">
+                Isi detail barang elektronik yang ingin Anda tawarkan ke sesama mahasiswa.
+            </p>
         </div>
 
         @if ($errors->any())
-            <div class="mb-6 p-4 bg-red-50 border border-red-200 text-red-700 rounded-lg text-sm">
-                <ul class="list-disc list-inside">
+            <div class="mb-6 p-4 bg-red-50 border border-red-200 text-red-700 rounded-xl text-sm">
+                <ul class="list-disc list-inside space-y-1">
                     @foreach ($errors->all() as $error)
                         <li>{{ $error }}</li>
                     @endforeach
@@ -25,61 +29,119 @@
 
             <div>
                 <label class="block text-sm font-medium text-gray-700 mb-1">Nama Barang</label>
-                <input type="text" name="nama_barang" value="{{ old('nama_barang') }}" required class="w-full rounded-lg border-gray-300 border px-3 py-2 text-sm focus:ring-orange-500 focus:border-orange-500" placeholder="Contoh: Mouse Logitech G102 Bekas">
+                <input
+                    type="text"
+                    name="nama_barang"
+                    value="{{ old('nama_barang') }}"
+                    required
+                    class="w-full rounded-xl border-orange-200 border px-3.5 py-2 text-sm text-gray-800 bg-orange-50/30 focus:bg-white focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-orange-500 transition-all"
+                    placeholder="Contoh: Mouse Logitech G102 Bekas"
+                >
             </div>
 
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
                 <div>
                     <label class="block text-sm font-medium text-gray-700 mb-1">Kategori</label>
-                    <select name="category_id" required class="w-full rounded-lg border-gray-300 border px-3 py-2 text-sm focus:ring-orange-500 focus:border-orange-500">
+                    <select
+                        name="category_id"
+                        required
+                        class="w-full rounded-xl border-orange-200 border px-3.5 py-2 text-sm text-gray-800 bg-orange-50/30 focus:bg-white focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-orange-500 transition-all"
+                    >
                         <option value="">Pilih Kategori</option>
-                            @foreach($categories as $category)
-                                <option value="{{ $category->id }}">{{ $category->nama_kategori }}</option>
-                            @endforeach
+                        @foreach($categories as $category)
+                            <option value="{{ $category->id }}" {{ old('category_id') == $category->id ? 'selected' : '' }}>
+                                {{ $category->nama_kategori }}
+                            </option>
+                        @endforeach
                     </select>
                 </div>
 
                 <div>
                     <label class="block text-sm font-medium text-gray-700 mb-1">Harga (Rp)</label>
-                    <input type="number" name="harga" value="{{ old('harga') }}" required class="w-full rounded-lg border-gray-300 border px-3 py-2 text-sm focus:ring-orange-500 focus:border-orange-500" placeholder="Contoh: 150000">
+                    <input
+                        type="number"
+                        name="harga"
+                        value="{{ old('harga') }}"
+                        required
+                        class="w-full rounded-xl border-orange-200 border px-3.5 py-2 text-sm text-gray-800 bg-orange-50/30 focus:bg-white focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-orange-500 transition-all"
+                        placeholder="Contoh: 150000"
+                    >
                 </div>
             </div>
 
             <div>
                 <label class="block text-sm font-medium text-gray-700 mb-1">Deskripsi Barang</label>
-                <textarea name="deskripsi" rows="4" required class="w-full rounded-lg border-gray-300 border px-3 py-2 text-sm focus:ring-orange-500 focus:border-orange-500" placeholder="Jelaskan kondisi fisik, kelengkapan, dan minus barang...">{{ old('deskripsi') }}</textarea>
+                <textarea
+                    name="deskripsi"
+                    rows="4"
+                    required
+                    class="w-full rounded-xl border-orange-200 border px-3.5 py-2 text-sm text-gray-800 bg-orange-50/30 focus:bg-white focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-orange-500 transition-all"
+                    placeholder="Jelaskan kondisi fisik, kelengkapan, dan minus barang..."
+                >{{ old('deskripsi') }}</textarea>
             </div>
 
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
                 <div>
                     <label class="block text-sm font-medium text-gray-700 mb-1">Metode Serah Terima</label>
-                    <select name="metode_serah_terima" required class="w-full rounded-lg border-gray-300 border px-3 py-2 text-sm focus:ring-orange-500 focus:border-orange-500">
+                    <select
+                        name="metode_serah_terima"
+                        required
+                        class="w-full rounded-xl border-orange-200 border px-3.5 py-2 text-sm text-gray-800 bg-orange-50/30 focus:bg-white focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-orange-500 transition-all"
+                    >
                         <option value="">Pilih Metode Serah Terima</option>
-                        <option value="Sekitar Kampus">Sekitar kampus</option>
-                        <option value="Antar ke Kost">Antar ke Kost</option>
-                        <option value="Jemput di Kost">Jemput di Kost</option>
+                        <option value="COD di Kampus" {{ old('metode_serah_terima') == 'COD di Kampus' ? 'selected' : '' }}>Atur Lokasi</option>
+                        <option value="Antar ke Kost" {{ old('metode_serah_terima') == 'Antar ke Kost' ? 'selected' : '' }}>Antar ke Kost</option>
+                        <option value="Jemput di Kost" {{ old('metode_serah_terima') == 'Jemput di Kost' ? 'selected' : '' }}>Jemput di Kost</option>
                     </select>
                 </div>
 
                 <div>
                     <label class="block text-sm font-medium text-gray-700 mb-1">Titik Lokasi Pertemuan</label>
-                    <input type="text" name="titik_lokasi" value="{{ old('titik_lokasi') }}" required class="w-full rounded-lg border-gray-300 border px-3 py-2 text-sm focus:ring-orange-500 focus:border-orange-500" placeholder="Contoh: Gedung Utama / Kantin PCR">
+                    <input
+                        type="text"
+                        name="titik_lokasi"
+                        value="{{ old('titik_lokasi') }}"
+                        required
+                        class="w-full rounded-xl border-orange-200 border px-3.5 py-2 text-sm text-gray-800 bg-orange-50/30 focus:bg-white focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-orange-500 transition-all"
+                        placeholder="Contoh: Gedung Utama / Kantin PCR"
+                    >
                 </div>
             </div>
 
             <div>
                 <label class="block text-sm font-medium text-gray-700 mb-1">Foto Barang (Maks 2MB)</label>
-                <input type="file" name="foto" accept="image/*" required class="w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-semibold file:bg-orange-50 file:text-orange-700 hover:file:bg-orange-100">
+                <input
+                    type="file"
+                    name="foto"
+                    accept="image/*"
+                    required
+                    class="w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-orange-50 file:text-orange-600 hover:file:bg-orange-100 transition-all"
+                >
             </div>
 
             <div>
                 <label class="block text-sm font-medium text-gray-700 mb-1">Video Review Barang (Opsional, Maks 10MB)</label>
-                <input type="file" name="video_review" accept="video/mp4,video/quicktime,video/mkv" class="w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-semibold file:bg-orange-50 file:text-orange-700 hover:file:bg-orange-100">
+                <input
+                    type="file"
+                    name="video_review"
+                    accept="video/mp4,video/quicktime,video/mkv"
+                    class="w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-orange-50 file:text-orange-600 hover:file:bg-orange-100 transition-all"
+                >
             </div>
 
-            <div class="flex justify-end space-x-4 pt-4 border-t border-gray-200">
-                <a href="{{ route('mahasiswa.toko.index') }}" class="px-4 py-2 border border-gray-300 text-gray-700 text-sm font-medium rounded-lg hover:bg-gray-50 transition-colors">Batal</a>
-                <button type="submit" class="px-5 py-2 bg-orange-600 hover:bg-orange-700 text-white text-sm font-medium rounded-lg shadow-sm transition-colors">Simpan Barang</button>
+            <div class="flex justify-end items-center gap-3 pt-5 border-t border-orange-100">
+                <a
+                    href="{{ route('mahasiswa.toko.index') }}"
+                    class="px-4 py-2 border border-orange-200 text-orange-600 text-sm font-medium rounded-xl hover:bg-orange-50 transition-colors"
+                >
+                    Batal
+                </a>
+                <button
+                    type="submit"
+                    class="px-5 py-2 bg-gradient-to-r from-orange-400 via-orange-500 to-amber-600 hover:from-amber-400 hover:via-orange-500 hover:to-orange-600 text-white text-sm font-semibold rounded-xl shadow-sm hover:shadow transition-all cursor-pointer"
+                >
+                    Simpan Barang
+                </button>
             </div>
         </form>
     </div>

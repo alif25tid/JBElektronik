@@ -34,7 +34,9 @@
 <div class="max-w-5xl mx-auto w-full px-1 sm:px-2">
     <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 mb-5">
         <div>
-            <h1 class="text-2xl font-bold text-slate-900">Dashboard Admin</h1>
+            <h1 class="text-2xl font-extrabold bg-gradient-to-r from-slate-900 via-blue-950 to-blue-900 bg-clip-text text-transparent">
+                Dashboard Admin
+            </h1>
             <p class="text-sm text-slate-600">Moderasi barang dagangan, pantau daftar pengguna, dan kelola seluruh barang.</p>
         </div>
     </div>
@@ -67,13 +69,15 @@
             class="admin-tab-panel space-y-5"
         >
             <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-                <div class="bg-white rounded-2xl border-2 border-slate-900 p-5 shadow-sm">
+                <div class="bg-white rounded-2xl border-2 border-blue-950 p-5 shadow-sm">
                     <p class="text-xs font-semibold uppercase tracking-wider text-slate-500">Menunggu Konfirmasi</p>
-                    <p class="mt-2 text-3xl font-bold text-slate-900">{{ $pendingProducts->count() }}</p>
+                    <p class="mt-2 text-3xl font-extrabold bg-gradient-to-r from-slate-900 via-blue-950 to-blue-900 bg-clip-text text-transparent">
+                        {{ $pendingProducts->count() }}
+                    </p>
                     <p class="mt-1 text-xs text-slate-500">Barang berstatus pending</p>
                 </div>
 
-                <div class="bg-white rounded-2xl border-2 border-slate-900 p-5 shadow-sm">
+                <div class="bg-white rounded-2xl border-2 border-blue-950 p-5 shadow-sm">
                     <p class="text-xs font-semibold uppercase tracking-wider text-slate-500">Barang Disetujui</p>
                     <p class="mt-2 text-3xl font-bold text-emerald-600">
                         {{ $approvedProducts->count() }}
@@ -81,7 +85,7 @@
                     <p class="mt-1 text-xs text-slate-500">Akumulasi barang pernah disetujui</p>
                 </div>
 
-                <div class="bg-white rounded-2xl border-2 border-slate-900 p-5 shadow-sm">
+                <div class="bg-white rounded-2xl border-2 border-blue-950 p-5 shadow-sm">
                     <p class="text-xs font-semibold uppercase tracking-wider text-slate-500">Barang Ditolak</p>
                     <p class="mt-2 text-3xl font-bold text-red-600">
                         {{ $rejectedProducts->count() }}
@@ -89,36 +93,38 @@
                     <p class="mt-1 text-xs text-slate-500">Akumulasi barang pernah ditolak</p>
                 </div>
 
-                <div class="bg-white rounded-2xl border-2 border-slate-900 p-5 shadow-sm">
+                <div class="bg-white rounded-2xl border-2 border-blue-950 p-5 shadow-sm">
                     <p class="text-xs font-semibold uppercase tracking-wider text-slate-500">Total Pengguna</p>
-                    <p class="mt-2 text-3xl font-bold text-slate-900">{{ $users->count() }}</p>
+                    <p class="mt-2 text-3xl font-extrabold bg-gradient-to-r from-slate-900 via-blue-950 to-blue-900 bg-clip-text text-transparent">
+                        {{ $users->count() }}
+                    </p>
                     <p class="mt-1 text-xs text-slate-500">Mahasiswa terdaftar</p>
                 </div>
             </div>
 
-            <div class="bg-white rounded-2xl border-2 border-slate-900 px-5 py-3.5 shadow-sm flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+            <div class="bg-white rounded-2xl border-2 border-blue-950 px-5 py-3.5 shadow-sm flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
                 <div>
                     <h2 class="text-sm font-bold text-slate-900">Grafik Akumulasi Pertumbuhan</h2>
                     <p class="text-xs text-slate-500">Filter rentang waktu akumulasi barang dan pengguna.</p>
                 </div>
-                <div class="inline-flex items-center gap-1 p-1 rounded-xl bg-slate-100 border border-slate-200 self-start sm:self-auto" role="group" aria-label="Filter rentang waktu line chart">
-                    <button type="button" data-chart-range="day" class="chart-range-btn px-3 py-1.5 rounded-lg text-xs font-semibold text-slate-700 transition-colors cursor-pointer">
+                <div class="inline-flex items-center gap-1 p-1 rounded-xl bg-gradient-to-r from-slate-100 via-blue-50/70 to-slate-100 border border-slate-200 self-start sm:self-auto" role="group" aria-label="Filter rentang waktu line chart">
+                    <button type="button" data-chart-range="day" class="chart-range-btn px-3 py-1.5 rounded-lg text-xs font-semibold text-slate-700 hover:text-blue-950 transition-all cursor-pointer">
                         Sehari
                     </button>
-                    <button type="button" data-chart-range="week" class="chart-range-btn px-3 py-1.5 rounded-lg text-xs font-semibold bg-slate-900 text-white shadow-2xs transition-colors cursor-pointer">
+                    <button type="button" data-chart-range="week" class="chart-range-btn px-3 py-1.5 rounded-lg text-xs font-semibold bg-gradient-to-r from-slate-900 via-blue-950 to-blue-900 text-white shadow-2xs transition-all cursor-pointer">
                         Seminggu
                     </button>
-                    <button type="button" data-chart-range="month" class="chart-range-btn px-3 py-1.5 rounded-lg text-xs font-semibold text-slate-700 transition-colors cursor-pointer">
+                    <button type="button" data-chart-range="month" class="chart-range-btn px-3 py-1.5 rounded-lg text-xs font-semibold text-slate-700 hover:text-blue-950 transition-all cursor-pointer">
                         Sebulan
                     </button>
-                    <button type="button" data-chart-range="year" class="chart-range-btn px-3 py-1.5 rounded-lg text-xs font-semibold text-slate-700 transition-colors cursor-pointer">
+                    <button type="button" data-chart-range="year" class="chart-range-btn px-3 py-1.5 rounded-lg text-xs font-semibold text-slate-700 hover:text-blue-950 transition-all cursor-pointer">
                         Setahun
                     </button>
                 </div>
             </div>
 
             <div class="grid grid-cols-1 lg:grid-cols-2 gap-4">
-                <div class="bg-white rounded-2xl border-2 border-slate-900 p-5 shadow-sm">
+                <div class="bg-white rounded-2xl border-2 border-blue-950 p-5 shadow-sm">
                     <div class="flex items-start justify-between gap-2 mb-4">
                         <div>
                             <h3 class="text-base font-bold text-slate-900">Akumulasi Barang</h3>
@@ -140,14 +146,14 @@
                     </div>
                 </div>
 
-                <div class="bg-white rounded-2xl border-2 border-slate-900 p-5 shadow-sm">
+                <div class="bg-white rounded-2xl border-2 border-blue-950 p-5 shadow-sm">
                     <div class="flex items-start justify-between gap-2 mb-4">
                         <div>
                             <h3 class="text-base font-bold text-slate-900">Akumulasi Pengguna</h3>
                             <p id="usersChartSubtitle" class="text-xs text-slate-500">Rentang: Seminggu (7 hari terakhir)</p>
                         </div>
-                        <span class="inline-flex items-center gap-1.5 text-xs font-semibold text-slate-800 shrink-0">
-                            <span class="w-2.5 h-2.5 rounded-full bg-slate-900 inline-block"></span>
+                        <span class="inline-flex items-center gap-1.5 text-xs font-semibold text-blue-950 shrink-0">
+                            <span class="w-2.5 h-2.5 rounded-full bg-gradient-to-br from-slate-900 via-blue-950 to-blue-900 inline-block"></span>
                             Total Pengguna
                         </span>
                     </div>
@@ -163,14 +169,14 @@
             id="moderasi-barang"
             data-admin-panel="moderasi"
             data-admin-panel-index="1"
-            class="admin-tab-panel hidden bg-white rounded-2xl border-2 border-slate-900 shadow-sm overflow-hidden"
+            class="admin-tab-panel hidden bg-white rounded-2xl border-2 border-blue-950 shadow-sm overflow-hidden"
         >
-            <div class="px-6 py-4 border-b border-slate-200 flex items-center justify-between bg-slate-50">
+            <div class="px-6 py-4 border-b border-slate-200 flex items-center justify-between bg-gradient-to-r from-slate-50 via-blue-50/60 to-slate-50">
                 <div>
                     <h2 class="text-lg font-bold text-slate-900">Antrean Moderasi Barang</h2>
                     <p class="text-xs text-slate-600">Klik tombol Detail untuk memeriksa informasi lengkap sebelum konfirmasi atau menolak barang.</p>
                 </div>
-                <span class="px-3 py-1 text-xs font-bold rounded-full bg-slate-900 text-white">
+                <span class="px-3 py-1 text-xs font-bold rounded-full bg-gradient-to-r from-slate-900 via-blue-950 to-blue-900 text-white shadow-2xs">
                     {{ $pendingProducts->count() }} Pending
                 </span>
             </div>
@@ -187,7 +193,7 @@
                     </thead>
                     <tbody class="divide-y divide-slate-200 bg-white">
                         @forelse($pendingProducts as $product)
-                            <tr class="hover:bg-slate-50/70 transition-colors">
+                            <tr class="hover:bg-blue-50/30 transition-colors">
                                 <td class="px-6 py-4">
                                     <div class="flex items-center gap-3">
                                         @if($product->foto)
@@ -228,7 +234,7 @@
                                         data-video="{{ ($product->video_review && $product->video_review !== '-') ? asset('storage/' . $product->video_review) : '' }}"
                                         data-approve-url="{{ route('admin.products.approve', $product->id) }}"
                                         data-reject-url="{{ route('admin.products.reject', $product->id) }}"
-                                        class="inline-flex items-center gap-1.5 px-4 py-2 rounded-lg bg-slate-900 hover:bg-slate-800 text-white text-xs font-semibold shadow-sm transition-colors cursor-pointer"
+                                        class="inline-flex items-center gap-1.5 px-4 py-2 rounded-lg bg-gradient-to-r from-slate-900 via-blue-950 to-blue-900 hover:from-blue-950 hover:to-blue-800 text-white text-xs font-semibold shadow-sm transition-all cursor-pointer"
                                     >
                                         Detail
                                     </button>
@@ -251,14 +257,14 @@
             id="daftar-pengguna"
             data-admin-panel="pengguna"
             data-admin-panel-index="2"
-            class="admin-tab-panel hidden bg-white rounded-2xl border-2 border-slate-900 shadow-sm overflow-hidden"
+            class="admin-tab-panel hidden bg-white rounded-2xl border-2 border-blue-950 shadow-sm overflow-hidden"
         >
-            <div class="px-6 py-4 border-b border-slate-200 flex items-center justify-between bg-slate-50">
+            <div class="px-6 py-4 border-b border-slate-200 flex items-center justify-between bg-gradient-to-r from-slate-50 via-blue-50/60 to-slate-50">
                 <div>
                     <h2 class="text-lg font-bold text-slate-900">Daftar Pengguna</h2>
                     <p class="text-xs text-slate-600">Daftar akun mahasiswa terdaftar beserta tanggal bergabung.</p>
                 </div>
-                <span id="usersFilteredCountBadge" class="px-3 py-1 text-xs font-bold rounded-full bg-slate-900 text-white">
+                <span id="usersFilteredCountBadge" class="px-3 py-1 text-xs font-bold rounded-full bg-gradient-to-r from-slate-900 via-blue-950 to-blue-900 text-white shadow-2xs">
                     {{ $users->count() }} pengguna
                 </span>
             </div>
@@ -272,7 +278,7 @@
                         type="search"
                         id="userSearchInput"
                         placeholder="Cari nama, email, atau nomor WhatsApp..."
-                        class="w-full pl-10 pr-4 py-2 text-xs sm:text-sm text-slate-800 placeholder-slate-400 bg-slate-50 border border-slate-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-slate-900 focus:bg-white transition-all"
+                        class="w-full pl-10 pr-4 py-2 text-xs sm:text-sm text-slate-800 placeholder-slate-400 bg-slate-50 border border-slate-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-900 focus:bg-white transition-all"
                     >
                 </div>
 
@@ -282,7 +288,7 @@
                     </label>
                     <select
                         id="userSortField"
-                        class="px-3 py-2 text-xs sm:text-sm font-medium text-slate-800 bg-slate-50 border border-slate-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-slate-900 focus:bg-white cursor-pointer"
+                        class="px-3 py-2 text-xs sm:text-sm font-medium text-slate-800 bg-slate-50 border border-slate-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-900 focus:bg-white cursor-pointer"
                     >
                         <option value="name">Nama Pengguna</option>
                         <option value="joined" selected>Tanggal Bergabung</option>
@@ -294,7 +300,7 @@
                         data-direction="desc"
                         title="Urutan: Menurun (DESC) — Klik untuk mengubah ASC / DESC"
                         aria-label="Ubah arah urutan ASC atau DESC"
-                        class="w-9 h-9 rounded-xl border border-slate-300 bg-slate-900 hover:bg-slate-800 text-white flex items-center justify-center transition-colors cursor-pointer shrink-0"
+                        class="w-9 h-9 rounded-xl border border-blue-950 bg-gradient-to-br from-slate-900 via-blue-950 to-blue-900 hover:from-blue-950 hover:to-blue-800 text-white flex items-center justify-center transition-all cursor-pointer shrink-0"
                     >
                         <svg id="userSortArrowIcon" class="w-4 h-4 transition-transform duration-200 rotate-180" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16V4m0 0L3 8m4-4l4 4m6 0v12m0 0l4-4m-4 4l-4-4" />
@@ -327,7 +333,7 @@
                                 $joinedTimestamp = $joinedDt ? $joinedDt->timestamp : 0;
                             @endphp
                             <tr
-                                class="user-data-row hover:bg-slate-50/70 transition-colors"
+                                class="user-data-row hover:bg-blue-50/30 transition-colors"
                                 data-name="{{ mb_strtolower($user->name ?? '') }}"
                                 data-email="{{ mb_strtolower($user->email ?? '') }}"
                                 data-wa="{{ mb_strtolower($user->no_whatsapp ?? '') }}"
@@ -340,7 +346,7 @@
                                     {{ $joinedFormatted }}
                                 </td>
                                 <td class="px-5 py-3.5 whitespace-nowrap">
-                                    <span class="px-2.5 py-0.5 rounded-full text-xs font-semibold bg-slate-100 text-slate-900">
+                                    <span class="px-2.5 py-0.5 rounded-full text-xs font-semibold bg-blue-50 text-blue-950 border border-blue-100">
                                         {{ $user->products_count ?? 0 }} barang
                                     </span>
                                 </td>
@@ -354,7 +360,7 @@
                                             data-warn-url="{{ route('admin.users.warn', $user->id) }}"
                                             title="Beri Peringatan Pelanggaran"
                                             aria-label="Beri Peringatan Pelanggaran"
-                                            class="p-2 rounded-lg text-slate-900 hover:bg-slate-100 border border-slate-300 transition-colors cursor-pointer"
+                                            class="p-2 rounded-lg text-blue-950 hover:bg-blue-50 border border-slate-300 transition-colors cursor-pointer"
                                         >
                                             <svg class="w-4 h-4" viewBox="0 0 24 24" fill="currentColor">
                                                 <path fill-rule="evenodd" d="M9.401 3.003c1.155-2 4.043-2 5.197 0l7.355 12.748c1.154 2-.29 4.5-2.599 4.5H4.645c-2.309 0-3.752-2.5-2.598-4.5L9.4 3.003zM12 8.25a.75.75 0 01.75.75v3.75a.75.75 0 01-1.5 0V9a.75.75 0 01.75-.75zm0 8.25a.75.75 0 100-1.5.75.75 0 000 1.5z" clip-rule="evenodd" />
@@ -369,7 +375,7 @@
                                             data-message-url="{{ route('admin.users.message', $user->id) }}"
                                             title="Kirim Pesan Admin"
                                             aria-label="Kirim Pesan Admin"
-                                            class="p-2 rounded-lg text-slate-900 hover:bg-slate-100 border border-slate-300 transition-colors cursor-pointer"
+                                            class="p-2 rounded-lg text-blue-950 hover:bg-blue-50 border border-slate-300 transition-colors cursor-pointer"
                                         >
                                             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 10h.01M12 10h.01M16 10h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
@@ -404,7 +410,7 @@
                     <button
                         type="button"
                         id="usersPrevPageBtn"
-                        class="px-3 py-1.5 rounded-lg border border-slate-300 bg-white text-xs font-semibold text-slate-700 hover:bg-slate-100 disabled:opacity-40 disabled:pointer-events-none transition-colors cursor-pointer"
+                        class="px-3 py-1.5 rounded-lg border border-slate-300 bg-white text-xs font-semibold text-slate-700 hover:bg-blue-50 disabled:opacity-40 disabled:pointer-events-none transition-colors cursor-pointer"
                     >
                         &larr; Sebelumnya
                     </button>
@@ -414,7 +420,7 @@
                     <button
                         type="button"
                         id="usersNextPageBtn"
-                        class="px-3 py-1.5 rounded-lg border border-slate-300 bg-white text-xs font-semibold text-slate-700 hover:bg-slate-100 disabled:opacity-40 disabled:pointer-events-none transition-colors cursor-pointer"
+                        class="px-3 py-1.5 rounded-lg border border-slate-300 bg-white text-xs font-semibold text-slate-700 hover:bg-blue-50 disabled:opacity-40 disabled:pointer-events-none transition-colors cursor-pointer"
                     >
                         Selanjutnya &rarr;
                     </button>
@@ -427,14 +433,14 @@
             id="daftar-barang"
             data-admin-panel="barang"
             data-admin-panel-index="3"
-            class="admin-tab-panel hidden bg-white rounded-2xl border-2 border-slate-900 shadow-sm overflow-hidden"
+            class="admin-tab-panel hidden bg-white rounded-2xl border-2 border-blue-950 shadow-sm overflow-hidden"
         >
-            <div class="px-6 py-4 border-b border-slate-200 flex items-center justify-between bg-slate-50">
+            <div class="px-6 py-4 border-b border-slate-200 flex items-center justify-between bg-gradient-to-r from-slate-50 via-blue-50/60 to-slate-50">
                 <div>
                     <h2 class="text-lg font-bold text-slate-900">Daftar Barang</h2>
                     <p class="text-xs text-slate-600">Seluruh barang yang diunggah beserta tanggal bergabung pengguna, status moderasi, dan waktu upload.</p>
                 </div>
-                <span id="productsFilteredCountBadge" class="px-3 py-1 text-xs font-bold rounded-full bg-slate-900 text-white">
+                <span id="productsFilteredCountBadge" class="px-3 py-1 text-xs font-bold rounded-full bg-gradient-to-r from-slate-900 via-blue-950 to-blue-900 text-white shadow-2xs">
                     {{ $allProducts->count() }} barang
                 </span>
             </div>
@@ -448,7 +454,7 @@
                         type="search"
                         id="productUserSearchInput"
                         placeholder="Cari nama pengguna..."
-                        class="w-full pl-10 pr-4 py-2 text-xs sm:text-sm text-slate-800 placeholder-slate-400 bg-slate-50 border border-slate-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-slate-900 focus:bg-white transition-all"
+                        class="w-full pl-10 pr-4 py-2 text-xs sm:text-sm text-slate-800 placeholder-slate-400 bg-slate-50 border border-slate-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-900 focus:bg-white transition-all"
                     >
                 </div>
 
@@ -458,7 +464,7 @@
                     </label>
                     <select
                         id="productSortField"
-                        class="px-3 py-2 text-xs sm:text-sm font-medium text-slate-800 bg-slate-50 border border-slate-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-slate-900 focus:bg-white cursor-pointer"
+                        class="px-3 py-2 text-xs sm:text-sm font-medium text-slate-800 bg-slate-50 border border-slate-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-900 focus:bg-white cursor-pointer"
                     >
                         <option value="product_name">Nama Produk</option>
                         <option value="user_name">Nama Pengguna</option>
@@ -471,7 +477,7 @@
                         data-direction="desc"
                         title="Urutan: Menurun (DESC) — Klik untuk mengubah ASC / DESC"
                         aria-label="Ubah arah urutan barang ASC atau DESC"
-                        class="w-9 h-9 rounded-xl border border-slate-300 bg-slate-900 hover:bg-slate-800 text-white flex items-center justify-center transition-colors cursor-pointer shrink-0"
+                        class="w-9 h-9 rounded-xl border border-blue-950 bg-gradient-to-br from-slate-900 via-blue-950 to-blue-900 hover:from-blue-950 hover:to-blue-800 text-white flex items-center justify-center transition-all cursor-pointer shrink-0"
                     >
                         <svg id="productSortArrowIcon" class="w-4 h-4 transition-transform duration-200 rotate-180" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16V4m0 0L3 8m4-4l4 4m6 0v12m0 0l4-4m-4 4l-4-4" />
@@ -511,7 +517,7 @@
                                 $uploadTimestamp = $uploadDt ? $uploadDt->timestamp : 0;
                             @endphp
                             <tr
-                                class="product-data-row hover:bg-slate-50/70 transition-colors"
+                                class="product-data-row hover:bg-blue-50/30 transition-colors"
                                 data-product-name="{{ mb_strtolower($product->nama_barang ?? '') }}"
                                 data-user-name="{{ mb_strtolower($product->user->name ?? '') }}"
                                 data-uploaded-at="{{ $uploadTimestamp }}"
@@ -531,7 +537,7 @@
                                     @if(in_array($product->status, ['tersedia', 'approved']))
                                         <span class="px-2.5 py-0.5 rounded-full text-xs font-semibold bg-emerald-100 text-emerald-800">Disetujui</span>
                                     @elseif($product->status === 'pending')
-                                        <span class="px-2.5 py-0.5 rounded-full text-xs font-semibold bg-slate-100 text-slate-900">Pending</span>
+                                        <span class="px-2.5 py-0.5 rounded-full text-xs font-semibold bg-blue-100 text-blue-950">Pending</span>
                                     @elseif($product->status === 'rejected')
                                         <span class="px-2.5 py-0.5 rounded-full text-xs font-semibold bg-red-100 text-red-800">Ditolak</span>
                                     @elseif($product->status === 'dihapus')
@@ -568,7 +574,7 @@
                     <button
                         type="button"
                         id="productsPrevPageBtn"
-                        class="px-3 py-1.5 rounded-lg border border-slate-300 bg-white text-xs font-semibold text-slate-700 hover:bg-slate-100 disabled:opacity-40 disabled:pointer-events-none transition-colors cursor-pointer"
+                        class="px-3 py-1.5 rounded-lg border border-slate-300 bg-white text-xs font-semibold text-slate-700 hover:bg-blue-50 disabled:opacity-40 disabled:pointer-events-none transition-colors cursor-pointer"
                     >
                         &larr; Sebelumnya
                     </button>
@@ -578,7 +584,7 @@
                     <button
                         type="button"
                         id="productsNextPageBtn"
-                        class="px-3 py-1.5 rounded-lg border border-slate-300 bg-white text-xs font-semibold text-slate-700 hover:bg-slate-100 disabled:opacity-40 disabled:pointer-events-none transition-colors cursor-pointer"
+                        class="px-3 py-1.5 rounded-lg border border-slate-300 bg-white text-xs font-semibold text-slate-700 hover:bg-blue-50 disabled:opacity-40 disabled:pointer-events-none transition-colors cursor-pointer"
                     >
                         Selanjutnya &rarr;
                     </button>
@@ -591,10 +597,10 @@
 
 {{-- POP-UP MODAL DETAIL & MODERASI BARANG --}}
 <div id="moderasiModal" class="hidden fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/60 backdrop-blur-xs">
-    <div class="bg-white rounded-2xl shadow-2xl max-w-2xl w-full max-h-[90vh] overflow-y-auto border-2 border-slate-900">
+    <div class="bg-white rounded-2xl shadow-2xl max-w-2xl w-full max-h-[90vh] overflow-y-auto border-2 border-blue-950">
         <div class="px-6 py-4 border-b border-slate-200 flex items-center justify-between sticky top-0 bg-white z-10">
             <div>
-                <span class="text-[11px] font-bold uppercase tracking-wider text-slate-500">Moderasi Produk</span>
+                <span class="text-[11px] font-bold uppercase tracking-wider text-blue-900">Moderasi Produk</span>
                 <h3 id="modalNamaBarang" class="text-lg font-bold text-slate-900">Detail Barang</h3>
             </div>
             <button type="button" onclick="closeModerasiModal()" class="p-2 rounded-lg text-slate-400 hover:text-slate-700 hover:bg-slate-100 cursor-pointer">
@@ -613,10 +619,12 @@
 
                 <div class="space-y-3 text-sm">
                     <div>
-                        <span id="modalKategori" class="inline-block px-2.5 py-0.5 text-xs font-semibold rounded-full bg-slate-100 text-slate-900">
+                        <span id="modalKategori" class="inline-block px-2.5 py-0.5 text-xs font-semibold rounded-full bg-blue-50 text-blue-950 border border-blue-100">
                             Kategori
                         </span>
-                        <p id="modalHarga" class="mt-2 text-2xl font-extrabold text-slate-900">Rp 0</p>
+                        <p id="modalHarga" class="mt-2 text-2xl font-extrabold bg-gradient-to-r from-slate-900 via-blue-950 to-blue-900 bg-clip-text text-transparent">
+                            Rp 0
+                        </p>
                     </div>
 
                     <div class="p-3 rounded-xl bg-slate-50 border border-slate-200 space-y-1 text-xs">
@@ -676,10 +684,10 @@
 
 {{-- POP-UP MODAL PERINGATAN PELANGGARAN PENGGUNA --}}
 <div id="warningModal" class="hidden fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/60 backdrop-blur-xs">
-    <div class="bg-white rounded-2xl shadow-2xl max-w-md w-full border-2 border-slate-900 overflow-hidden">
-        <div class="px-6 py-4 bg-slate-50 border-b border-slate-200 flex items-center justify-between">
+    <div class="bg-white rounded-2xl shadow-2xl max-w-md w-full border-2 border-blue-950 overflow-hidden">
+        <div class="px-6 py-4 bg-gradient-to-r from-slate-50 via-blue-50/60 to-slate-50 border-b border-slate-200 flex items-center justify-between">
             <div class="flex items-center gap-2.5">
-                <svg class="w-5 h-5 text-slate-900 flex-shrink-0" viewBox="0 0 24 24" fill="currentColor">
+                <svg class="w-5 h-5 text-blue-950 flex-shrink-0" viewBox="0 0 24 24" fill="currentColor">
                     <path fill-rule="evenodd" d="M9.401 3.003c1.155-2 4.043-2 5.197 0l7.355 12.748c1.154 2-.29 4.5-2.599 4.5H4.645c-2.309 0-3.752-2.5-2.598-4.5L9.4 3.003zM12 8.25a.75.75 0 01.75.75v3.75a.75.75 0 01-1.5 0V9a.75.75 0 01.75-.75zm0 8.25a.75.75 0 100-1.5.75.75 0 000 1.5z" clip-rule="evenodd" />
                 </svg>
                 <div>
@@ -706,7 +714,7 @@
                     rows="3"
                     required
                     placeholder="Tuliskan alasan pelanggaran pengguna..."
-                    class="w-full px-3 py-2 rounded-xl border border-slate-300 text-sm text-slate-800 focus:outline-none focus:ring-2 focus:ring-slate-900"
+                    class="w-full px-3 py-2 rounded-xl border border-slate-300 text-sm text-slate-800 focus:outline-none focus:ring-2 focus:ring-blue-900"
                 ></textarea>
             </div>
 
@@ -714,7 +722,7 @@
                 <button type="button" onclick="closeWarningModal()" class="px-4 py-2 rounded-xl border border-slate-300 text-xs font-semibold text-slate-700 hover:bg-slate-50 cursor-pointer">
                     Batal
                 </button>
-                <button type="submit" class="px-4 py-2 rounded-xl bg-slate-900 hover:bg-slate-800 text-white text-xs font-bold shadow-xs cursor-pointer">
+                <button type="submit" class="px-4 py-2 rounded-xl bg-gradient-to-r from-slate-900 via-blue-950 to-blue-900 hover:from-blue-950 hover:to-blue-800 text-white text-xs font-bold shadow-xs transition-all cursor-pointer">
                     Kirim Peringatan
                 </button>
             </div>
@@ -724,8 +732,8 @@
 
 {{-- POP-UP MODAL KIRIM PESAN ADMIN --}}
 <div id="adminMessageModal" class="hidden fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/60 backdrop-blur-xs">
-    <div class="bg-white rounded-2xl shadow-2xl max-w-md w-full border-2 border-slate-900 overflow-hidden">
-        <div class="px-6 py-4 bg-slate-50 border-b border-slate-200 flex items-center justify-between">
+    <div class="bg-white rounded-2xl shadow-2xl max-w-md w-full border-2 border-blue-950 overflow-hidden">
+        <div class="px-6 py-4 bg-gradient-to-r from-slate-50 via-blue-50/60 to-slate-50 border-b border-slate-200 flex items-center justify-between">
             <div>
                 <h3 class="text-base font-bold text-slate-900">Kirim Pesan Resmi Admin</h3>
                 <p id="messageTargetUser" class="text-xs text-slate-600">-</p>
@@ -749,7 +757,7 @@
                     rows="3"
                     required
                     placeholder="Tulis pesan untuk pengguna..."
-                    class="w-full px-3 py-2 rounded-xl border border-slate-300 text-sm text-slate-800 focus:outline-none focus:ring-2 focus:ring-slate-900"
+                    class="w-full px-3 py-2 rounded-xl border border-slate-300 text-sm text-slate-800 focus:outline-none focus:ring-2 focus:ring-blue-900"
                 ></textarea>
                 <p class="mt-1.5 text-[11px] text-slate-600">
                     Pesan ini akan tampil di halaman chat mahasiswa dan tidak dapat dibalas.
@@ -760,7 +768,7 @@
                 <button type="button" onclick="closeAdminMessageModal()" class="px-4 py-2 rounded-xl border border-slate-300 text-xs font-semibold text-slate-700 hover:bg-slate-50 cursor-pointer">
                     Batal
                 </button>
-                <button type="submit" class="px-4 py-2 rounded-xl bg-slate-900 hover:bg-slate-800 text-white text-xs font-bold shadow-xs cursor-pointer">
+                <button type="submit" class="px-4 py-2 rounded-xl bg-gradient-to-r from-slate-900 via-blue-950 to-blue-900 hover:from-blue-950 hover:to-blue-800 text-white text-xs font-bold shadow-xs transition-all cursor-pointer">
                     Kirim Pesan
                 </button>
             </div>
@@ -783,26 +791,56 @@
                 const outDuration = 140;
                 const inDuration = 180;
 
+                const activeClasses = [
+                    'bg-gradient-to-r',
+                    'from-slate-900',
+                    'via-blue-950',
+                    'to-blue-900',
+                    'text-white',
+                    'font-semibold',
+                    'shadow-xs'
+                ];
+
+                const inactiveClasses = [
+                    'text-slate-900',
+                    'font-medium',
+                    'hover:bg-blue-50/80',
+                    'hover:text-blue-950'
+                ];
+
+                const legacyClasses = [
+                    'bg-slate-900',
+                    'hover:bg-slate-100'
+                ];
+
                 function setActiveNav(targetIndex) {
-                    navButtons.forEach((btn) => {
-                        const btnIndex = Number(btn.dataset.adminTabIndex);
+                    navButtons.forEach((btn, idx) => {
+                        const rawIndex = Number(btn.dataset.adminTabIndex);
+                        const btnIndex = Number.isFinite(rawIndex) ? rawIndex : idx;
                         const isActive = btnIndex === targetIndex;
                         const badge = btn.querySelector('.admin-badge-count');
 
-                        btn.classList.toggle('bg-slate-900', isActive);
-                        btn.classList.toggle('text-white', isActive);
-                        btn.classList.toggle('font-semibold', isActive);
-                        btn.classList.toggle('shadow-xs', isActive);
-
-                        btn.classList.toggle('text-slate-900', !isActive);
-                        btn.classList.toggle('font-medium', !isActive);
-                        btn.classList.toggle('hover:bg-slate-100', !isActive);
+                        btn.classList.remove(...activeClasses, ...inactiveClasses, ...legacyClasses);
+                        btn.classList.add(...(isActive ? activeClasses : inactiveClasses));
 
                         if (badge) {
-                            badge.classList.toggle('bg-white', isActive);
-                            badge.classList.toggle('text-slate-900', isActive);
-                            badge.classList.toggle('bg-slate-900', !isActive);
-                            badge.classList.toggle('text-white', !isActive);
+                            badge.classList.remove(
+                                'bg-white',
+                                'text-blue-950',
+                                'text-slate-900',
+                                'bg-slate-900',
+                                'bg-gradient-to-r',
+                                'from-slate-900',
+                                'via-blue-950',
+                                'to-blue-900',
+                                'text-white'
+                            );
+
+                            if (isActive) {
+                                badge.classList.add('bg-white', 'text-blue-950');
+                            } else {
+                                badge.classList.add('bg-gradient-to-r', 'from-slate-900', 'via-blue-950', 'to-blue-900', 'text-white');
+                            }
                         }
                     });
                 }
@@ -898,6 +936,8 @@
 
                 if (window.location.hash && Object.prototype.hasOwnProperty.call(hashMap, window.location.hash)) {
                     switchToTab(hashMap[window.location.hash], true);
+                } else {
+                    setActiveNav(0);
                 }
             }
 
@@ -916,61 +956,78 @@
                 const bulanShort = ['Jan', 'Feb', 'Mar', 'Apr', 'Mei', 'Jun', 'Jul', 'Agu', 'Sep', 'Okt', 'Nov', 'Des'];
 
                 function buildBuckets(rangeKey) {
-                const now = new Date();
-                const buckets = [];
+                    const now = new Date();
+                    const buckets = [];
 
-                if (rangeKey === 'day') {
-                    const endOfHour = new Date(now.getFullYear(), now.getMonth(), now.getDate(), now.getHours(), 0, 0, 0);
-                    for (let i = 11; i >= 0; i--) {
-                        const end = new Date(endOfHour.getTime() - i * 2 * 3600 * 1000);
-                        const hh = String(end.getHours()).padStart(2, '0');
-                        buckets.push({
-                            label: `${hh}:00`,
-                            endTs: Math.floor(end.getTime() / 1000),
-                        });
+                    if (rangeKey === 'day') {
+                        const endOfHour = new Date(now.getFullYear(), now.getMonth(), now.getDate(), now.getHours(), 0, 0, 0);
+                        for (let i = 11; i >= 0; i--) {
+                            const end = new Date(endOfHour.getTime() - i * 2 * 3600 * 1000);
+                            const hh = String(end.getHours()).padStart(2, '0');
+                            buckets.push({
+                                label: `${hh}:00`,
+                                endTs: Math.floor(end.getTime() / 1000),
+                            });
+                        }
+                        return { buckets, labelText: 'Rentang: Sehari (24 jam terakhir)' };
                     }
-                    return { buckets, labelText: 'Rentang: Sehari (24 jam terakhir)' };
-                }
 
-                if (rangeKey === 'month') {
+                    if (rangeKey === 'month') {
+                        const todayEnd = new Date(now.getFullYear(), now.getMonth(), now.getDate(), 23, 59, 59, 999);
+                        for (let i = 9; i >= 0; i--) {
+                            const end = new Date(todayEnd.getTime() - i * 3 * 86400 * 1000);
+                            buckets.push({
+                                label: `${end.getDate()} ${bulanShort[end.getMonth()]}`,
+                                endTs: Math.floor(end.getTime() / 1000),
+                            });
+                        }
+                        return { buckets, labelText: 'Rentang: Sebulan (30 hari terakhir)' };
+                    }
+
+                    if (rangeKey === 'year') {
+                        const currentYear = now.getFullYear();
+                        for (let m = 0; m < 12; m++) {
+                            const endOfMonth = new Date(currentYear, m + 1, 0, 23, 59, 59, 999);
+                            buckets.push({
+                                label: bulanShort[m],
+                                endTs: Math.floor(endOfMonth.getTime() / 1000),
+                            });
+                        }
+                        return { buckets, labelText: 'Rentang: Setahun (Jan – Des)' };
+                    }
+
                     const todayEnd = new Date(now.getFullYear(), now.getMonth(), now.getDate(), 23, 59, 59, 999);
-                    for (let i = 9; i >= 0; i--) {
-                        const end = new Date(todayEnd.getTime() - i * 3 * 86400 * 1000);
+                    for (let i = 6; i >= 0; i--) {
+                        const dayEnd = new Date(todayEnd.getTime() - i * 86400 * 1000);
                         buckets.push({
-                            label: `${end.getDate()} ${bulanShort[end.getMonth()]}`,
-                            endTs: Math.floor(end.getTime() / 1000),
+                            label: `${dayEnd.getDate()} ${bulanShort[dayEnd.getMonth()]}`,
+                            endTs: Math.floor(dayEnd.getTime() / 1000),
                         });
                     }
-                    return { buckets, labelText: 'Rentang: Sebulan (30 hari terakhir)' };
+                    return { buckets, labelText: 'Rentang: Seminggu (7 hari terakhir)' };
                 }
-
-                if (rangeKey === 'year') {
-                    const currentYear = now.getFullYear();
-                    for (let m = 0; m < 12; m++) {
-                        const endOfMonth = new Date(currentYear, m + 1, 0, 23, 59, 59, 999);
-                        buckets.push({
-                            label: bulanShort[m],
-                            endTs: Math.floor(endOfMonth.getTime() / 1000),
-                        });
-                    }
-                    return { buckets, labelText: 'Rentang: Setahun (Jan – Des)' };
-                }
-
-                const todayEnd = new Date(now.getFullYear(), now.getMonth(), now.getDate(), 23, 59, 59, 999);
-                for (let i = 6; i >= 0; i--) {
-                    const dayEnd = new Date(todayEnd.getTime() - i * 86400 * 1000);
-                    buckets.push({
-                        label: `${dayEnd.getDate()} ${bulanShort[dayEnd.getMonth()]}`,
-                        endTs: Math.floor(dayEnd.getTime() / 1000),
-                    });
-                }
-                return { buckets, labelText: 'Rentang: Seminggu (7 hari terakhir)' };
-            }
 
                 function computeCumulativeSeries(items, buckets) {
                     return buckets.map((b) => {
                         return items.reduce((acc, item) => (item.ts > 0 && item.ts <= b.endTs ? acc + 1 : acc), 0);
                     });
+                }
+
+                function createNavyLineGradient(ctx, chartArea) {
+                    if (!chartArea) return '#1e3a8a';
+                    const grad = ctx.createLinearGradient(chartArea.left, 0, chartArea.right, 0);
+                    grad.addColorStop(0, '#0f172a');
+                    grad.addColorStop(0.5, '#172554');
+                    grad.addColorStop(1, '#1e3a8a');
+                    return grad;
+                }
+
+                function createNavyAreaGradient(ctx, chartArea) {
+                    if (!chartArea) return 'rgba(30, 58, 138, 0.14)';
+                    const grad = ctx.createLinearGradient(0, chartArea.top, 0, chartArea.bottom);
+                    grad.addColorStop(0, 'rgba(30, 58, 138, 0.25)');
+                    grad.addColorStop(1, 'rgba(15, 23, 42, 0.02)');
+                    return grad;
                 }
 
                 const initial = buildBuckets('week');
@@ -1031,11 +1088,18 @@
                             {
                                 label: 'Akumulasi Pengguna',
                                 data: computeCumulativeSeries(userItems, initial.buckets),
-                                borderColor: '#0f172a',
-                                backgroundColor: 'rgba(15, 23, 42, 0.12)',
+                                borderColor: function (context) {
+                                    const chart = context.chart;
+                                    return createNavyLineGradient(chart.ctx, chart.chartArea);
+                                },
+                                backgroundColor: function (context) {
+                                    const chart = context.chart;
+                                    return createNavyAreaGradient(chart.ctx, chart.chartArea);
+                                },
                                 borderWidth: 2.5,
                                 tension: 0.3,
                                 pointRadius: 3.5,
+                                pointBackgroundColor: '#1e3a8a',
                                 pointHoverRadius: 5,
                                 fill: true,
                             },
@@ -1060,6 +1124,8 @@
                     },
                 });
 
+                const activeRangeClasses = ['bg-gradient-to-r', 'from-slate-900', 'via-blue-950', 'to-blue-900', 'text-white', 'shadow-2xs'];
+
                 function applyChartRange(rangeKey) {
                     const { buckets, labelText } = buildBuckets(rangeKey);
                     const labels = buckets.map((b) => b.label);
@@ -1078,10 +1144,12 @@
 
                     rangeButtons.forEach((btn) => {
                         const active = btn.dataset.chartRange === rangeKey;
-                        btn.classList.toggle('bg-slate-900', active);
-                        btn.classList.toggle('text-white', active);
-                        btn.classList.toggle('shadow-2xs', active);
-                        btn.classList.toggle('text-slate-700', !active);
+                        btn.classList.remove(...activeRangeClasses, 'text-slate-700', 'hover:text-blue-950');
+                        if (active) {
+                            btn.classList.add(...activeRangeClasses);
+                        } else {
+                            btn.classList.add('text-slate-700', 'hover:text-blue-950');
+                        }
                     });
                 }
 
@@ -1181,8 +1249,8 @@
                             btn.type = 'button';
                             btn.textContent = String(page);
                             btn.className = page === currentPage
-                                ? 'w-8 h-8 rounded-lg bg-slate-900 text-white text-xs font-bold shadow-2xs cursor-pointer'
-                                : 'w-8 h-8 rounded-lg border border-slate-300 bg-white text-slate-700 hover:bg-slate-100 text-xs font-semibold cursor-pointer';
+                                ? 'w-8 h-8 rounded-lg bg-gradient-to-r from-slate-900 via-blue-950 to-blue-900 text-white text-xs font-bold shadow-2xs cursor-pointer'
+                                : 'w-8 h-8 rounded-lg border border-slate-300 bg-white text-slate-700 hover:bg-blue-50 text-xs font-semibold cursor-pointer';
                             btn.addEventListener('click', () => {
                                 currentPage = page;
                                 renderUsersTable();
@@ -1318,8 +1386,8 @@
                             btn.type = 'button';
                             btn.textContent = String(page);
                             btn.className = page === currentPage
-                                ? 'w-8 h-8 rounded-lg bg-slate-900 text-white text-xs font-bold shadow-2xs cursor-pointer'
-                                : 'w-8 h-8 rounded-lg border border-slate-300 bg-white text-slate-700 hover:bg-slate-100 text-xs font-semibold cursor-pointer';
+                                ? 'w-8 h-8 rounded-lg bg-gradient-to-r from-slate-900 via-blue-950 to-blue-900 text-white text-xs font-bold shadow-2xs cursor-pointer'
+                                : 'w-8 h-8 rounded-lg border border-slate-300 bg-white text-slate-700 hover:bg-blue-50 text-xs font-semibold cursor-pointer';
                             btn.addEventListener('click', () => {
                                 currentPage = page;
                                 renderProductsTable();
